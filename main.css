@@ -1,6 +1,8 @@
 html, body {
 	margin: 0;
 	overflow: hidden;
+	width: 100vw;
+	height: 100vh;
 	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
@@ -13,6 +15,8 @@ html, body {
 
 #timeDisplay {
 	font-size: 30vh;
+	font-family: 'Courier New', Courier, monospace;
+	white-space: nowrap;
 	user-select: none;
 }
 
@@ -21,22 +25,33 @@ html, body {
 	font-size: 5vh;
 }
 
-.timeColon {
-	animation: flash 2s infinite;
+#timeOver {
+	position: fixed;
+	top: 50%;
+	left: 0%;
+	transform: translate(50%, -50%);
 }
 
-@keyframes flash {
-	0% {
-		opacity: 1;
+#timeLeft {
+	position: fixed;
+	top: 50%;
+	right: 0%;
+	transform: translate(-50%, -50%);
+}
+
+#consoleView {
+	position: fixed;
+	top: 0%;
+	left: 50%;
+	transform: translate(-50%, 50%);
+}
+
+@media screen and (max-height: 400px) {
+	#currentTimePeriod {
+		font-size: 7.5vh;
 	}
-	49.999% {
-		opacity: 1;
-	}
-	50% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 0;
+	#timeLeft {
+		font-size:75%;
 	}
 }
 

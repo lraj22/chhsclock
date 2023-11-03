@@ -1,9 +1,14 @@
 // error handler for safety
 window.onerror = function(e) { alert("ERROR: " + e); };
 
+var consoleId = 1;
+console.log = function(m) {
+	consoleView.textContent = "[" + (consoleId++) + "] " + m;
+};
+
 // do forever
 function clockwork() {
-	timeDisplay.textContent = getFormattedTime();//.split(":").join('<span class="timeColon">:</span>');
+	timeDisplay.textContent = getFormattedTime().split(":").join(((Date.now() % 2000) < 1000) ? ":" : " ");
 	currentTimePeriod.textContent = getCurrentPeriod();
 	requestAnimationFrame(clockwork);
 }
@@ -16,8 +21,36 @@ function ready() {
 
 window.addEventListener("load", ready);
 
+window.addEventListener("mousemove", function(e) {
+	var percentAcross = (e.clientX / window.innerWidth * 100).toFixed();
+	if(percentAcross < 40) document.body.className = "pointerLeft";
+	else if(percentAcross > 60) document.body.className = "pointerRight";
+	else document.body.className = "pointerCenter";
+});
+
 function timeStrToObj(time) {
 	return new Date(Date.parse(time + getFormattedTime(", MMMM d, yyyy")));
+}
+
+function msToTimeDiff(ms, f) {
+	var timeSeconds = (f ? f : Math.round)(ms / 1000);
+	var outComponents = [];
+	if(timeSeconds >= 3600) {
+		outComponents.push(Math.floor(timeSeconds/3600).toString());
+		timeSeconds %= 3600;
+	}
+	if(timeSeconds >= 60) {
+		outComponents.push(Math.floor(timeSeconds/60).toString());
+		timeSeconds %= 60;
+	}
+	outComponents.push(timeSeconds.toString());
+	if(outComponents.length > 1) {
+		let lastIndex = outComponents.length - 1;
+		outComponents[lastIndex] = outComponents[lastIndex].padStart(2, "0");
+		return outComponents.join(":");
+	} else {
+		return outComponents[0] + "s";
+	}
 }
 
 var regularSchedule = {
@@ -46,7 +79,11 @@ function getCurrentPeriod() {
 		let j = 0;
 		for(j = 0; j < regularSchedule[timePeriod].length; j++) {
 			let timeBlock = regularSchedule[timePeriod][j].split("-");
-			if ((d > timeStrToObj(timeBlock[0].trim())) && (d < timeStrToObj(timeBlock[1].trim()))) {
+			let startTime = timeStrToObj(timeBlock[0].trim());
+			let endTime = timeStrToObj(timeBlock[1].trim());
+			if ((d > startTime) && (d < endTime)) {
+				timeOver.textContent = msToTimeDiff(d - startTime, Math.ceil) + " over";
+				timeLeft.textContent = msToTimeDiff(endTime - d, Math.floor) + " left";
 				return timePeriod;
 			}
 		}
