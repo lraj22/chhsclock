@@ -1,0 +1,48 @@
+html, body {
+	margin: 0;
+	overflow: hidden;
+	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+#centerDisplay {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+#timeDisplay {
+	font-size: 30vh;
+	user-select: none;
+}
+
+#currentTimePeriod {
+	text-align: center;
+	font-size: 5vh;
+}
+
+.timeColon {
+	animation: flash 2s infinite;
+}
+
+@keyframes flash {
+	0% {
+		opacity: 1;
+	}
+	49.999% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	body {
+		background-color: black;
+		color: white;
+	}
+}
