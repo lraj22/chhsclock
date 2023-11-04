@@ -39,11 +39,42 @@ html, body {
 	transform: translate(-50%, -50%);
 }
 
+#dateDisplay {
+	font-size: 5vh;
+	position: fixed;
+	top: 100%;
+	left: 50%;
+	transform: translate(-50%, -200%);
+}
+
 #consoleView {
 	position: fixed;
 	top: 0%;
 	left: 50%;
 	transform: translate(-50%, 50%);
+}
+
+#settingsIcon {
+	position: fixed;
+	top: 0%;
+	right: 0%;
+	transform: translate(-50%, 50%);
+	opacity: 0;
+	cursor: pointer;
+	transition: opacity 0.5s;
+}
+
+#settingsIcon::before {
+	content: "";
+	position: absolute;
+	border-radius: 50%;
+	width: 500%;
+	height: 500%;
+	transform: translate(-50%, -50%);
+}
+
+#settingsIcon:hover {
+	opacity: 1;
 }
 
 @media screen and (max-height: 400px) {

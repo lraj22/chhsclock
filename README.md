@@ -1,3 +1,3 @@
 # CHHS Clock
 
-This is a clock for Chino Hills High School. So far, it just shows the time, but there's a lot planned. (see TODO.md)
+This is a clock for Chino Hills High School. So far, it only has basic time-keeping features, but more is soon to come! (see TODO.md)

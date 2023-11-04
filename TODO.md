@@ -1,10 +1,13 @@
 # Roadmap for the CHHS Clock
 
 Features to add soon:
+- Real website
 - Other schedules
 - Auto selection of schedules
-- Time 'til next period
 - Settings menu
-- Flashing colon
 - Motivational quotes
+- PWA
 - Themes
+- Alarms/timers
+- Background color
+- Overrides

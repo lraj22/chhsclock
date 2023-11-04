@@ -10,6 +10,7 @@ console.log = function(m) {
 function clockwork() {
 	timeDisplay.textContent = getFormattedTime().split(":").join(((Date.now() % 2000) < 1000) ? ":" : " ");
 	currentTimePeriod.textContent = getCurrentPeriod();
+	dateDisplay.textContent = getFormattedTime("dddd, MMMM d");
 	requestAnimationFrame(clockwork);
 }
 
@@ -44,6 +45,9 @@ function msToTimeDiff(ms, f) {
 		timeSeconds %= 60;
 	}
 	outComponents.push(timeSeconds.toString());
+	if(outComponents.length > 2) {
+		outComponents[1] = outComponents[1].padStart(2, "0");
+	}
 	if(outComponents.length > 1) {
 		let lastIndex = outComponents.length - 1;
 		outComponents[lastIndex] = outComponents[lastIndex].padStart(2, "0");
@@ -88,6 +92,8 @@ function getCurrentPeriod() {
 			}
 		}
 	}
+	timeOver.textContent = "";
+	timeLeft.textContent = "";
 }
 
 function getFormattedTime(format) {
