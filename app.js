@@ -14,8 +14,8 @@ http.createServer(function(req, res) {
 			res.writeHead(500);
 			return res.end("500 Server Error");
 		}
-		var mime = {"html": "text/html", "css": "text/css", "js": "text/javascript"}[url.split(".")[1]];
+		var mime = {"html": "text/html", "css": "text/css", "js": "text/javascript", "md": "text/plain"}[url.split(".")[1]];
 		res.writeHead(200, { "Content-Type": mime });
 		res.end(data);
 	});
-}).listen(process.env.PORT);
+}).listen(process.env.PORT || 8080);
