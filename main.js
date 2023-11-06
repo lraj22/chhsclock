@@ -57,6 +57,25 @@ function msToTimeDiff(ms, f) {
 	}
 }
 
+var noSchedule = {};
+
+var lateStartSchedule = {
+	"Get to 1st period": ["9:20 AM - 9:25 AM"],
+	"1st period": ["9:25 AM - 10:14 AM"],
+	"1st-2nd passing period": ["10:14 AM - 10:20 AM"],
+	"2nd period": ["10:20 AM - 11:12 AM"],
+	"2nd-3rd passing period": ["11:12 AM - 11:18 AM"],
+	"3rd period": ["11:18 AM - 12:07 AM"],
+	"3rd-4th passing period": ["12:07 AM - 12:13 PM"],
+	"4th period": ["12:13 PM - 1:02 PM"],
+	"Lunch": ["1:02 PM - 1:32 PM"],
+	"Lunch-5th passing period": ["1:32 PM - 1:38 PM"],
+	"5th period": ["1:38 PM - 2:27 PM"],
+	"5th-6th passing period": ["2:27 PM - 2:33 PM"],
+	"6th period": ["2:33 PM - 3:22 PM"],
+	"School's over!": ["3:22 PM - 3:30 PM"],
+};
+
 var regularSchedule = {
 	"Get to 1st period": ["8:30 AM - 8:35 AM"],
 	"1st period": ["8:35 AM - 9:32 AM"],
@@ -74,15 +93,28 @@ var regularSchedule = {
 	"School's over!": ["3:22 PM - 3:30 PM"],
 };
 
+function getCurrentSchedule() {
+	var dayOfTheWeek = new Date().getDay();
+	if(dayOfTheWeek === 1) { // if today is Monday
+		return lateStartSchedule;
+	}
+	if((dayOfTheWeek > 1) && (dayOfTheWeek < 6)) {
+		return regularSchedule;
+	}
+	return noSchedule;
+}
+getCurrentSchedule();
+
 function getCurrentPeriod() {
 	var d = new Date();
-	var timePeriods = Object.keys(regularSchedule);
+	var currentSchedule = getCurrentSchedule();
+	var timePeriods = Object.keys(currentSchedule);
 	var i;
 	for(i = 0; i < timePeriods.length; i++) {
 		let timePeriod = timePeriods[i];
 		let j = 0;
-		for(j = 0; j < regularSchedule[timePeriod].length; j++) {
-			let timeBlock = regularSchedule[timePeriod][j].split("-");
+		for(j = 0; j < currentSchedule[timePeriod].length; j++) {
+			let timeBlock = currentSchedule[timePeriod][j].split("-");
 			let startTime = timeStrToObj(timeBlock[0].trim());
 			let endTime = timeStrToObj(timeBlock[1].trim());
 			if ((d > startTime) && (d < endTime)) {
