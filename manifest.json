@@ -18,9 +18,9 @@
 	}],
 	"id": "/",
 	"start_url": "/",
-	"background_color": "#2266EE",
-	"display": "standalone",
+	"background_color": "#00853E",
+	"display": "fullscreen",
 	"scope": "/",
-	"theme_color": "#2266EE",
+	"theme_color": "#00853E",
 	"description": "A clock for Chino Hills High School!"
 }
