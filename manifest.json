@@ -1,0 +1,26 @@
+{
+	"short_name": "CHHS Clock",
+	"name": "CHHS Clock",
+	"please-fix-later-icons": [{
+		"src": "/images/icons-vector.svg",
+		"type": "image/svg+xml",
+		"sizes": "512x512"
+	},
+	{
+		"src": "/images/icons-192.png",
+		"type": "image/png",
+		"sizes": "192x192"
+	},
+	{
+		"src": "/images/icons-512.png",
+		"type": "image/png",
+		"sizes": "512x512"
+	}],
+	"id": "/",
+	"start_url": "/",
+	"background_color": "#2266EE",
+	"display": "standalone",
+	"scope": "/",
+	"theme_color": "#2266EE",
+	"description": "A clock for Chino Hills High School!"
+}
