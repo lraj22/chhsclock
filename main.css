@@ -30,6 +30,11 @@ html, body {
 	top: 50%;
 	left: 0%;
 	transform: translate(50%, -50%);
+	display: none;
+}
+
+[data-pointerpos = "left"] #timeOver {
+	display: block;
 }
 
 #timeLeft {
@@ -37,6 +42,14 @@ html, body {
 	top: 50%;
 	right: 0%;
 	transform: translate(-50%, -50%);
+}
+
+[data-pointerpos = "left"] #timeLeft {
+	display: none;
+}
+
+body.shiftDown #timeOver, .shiftDown[data-pointerpos = "left"] #timeLeft {
+	display: block;
 }
 
 #dateDisplay {

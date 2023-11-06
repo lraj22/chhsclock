@@ -6,9 +6,13 @@ console.log = function(m) {
 	consoleView.textContent = "[" + (consoleId++) + "] " + m;
 };
 
+var isShiftDown = false;
+
 // do forever
 function clockwork() {
-	timeDisplay.textContent = getFormattedTime().split(":").join(((Date.now() % 2000) < 1000) ? ":" : " ");
+	var formattedTime = getFormattedTime();
+	if(!isShiftDown) formattedTime = formattedTime.split(":").join(((Date.now() % 2000) < 1000) ? ":" : " ");
+	timeDisplay.textContent = formattedTime;
 	currentTimePeriod.textContent = getCurrentPeriod();
 	dateDisplay.textContent = getFormattedTime("dddd, MMMM d");
 	requestAnimationFrame(clockwork);
@@ -20,13 +24,30 @@ function ready() {
 	requestAnimationFrame(clockwork);
 }
 
+function shiftHandler(e) {
+	if(e.ctrlKey || e.altKey) return;
+	if(e.key === "Shift") {
+		if(e.type === "keydown") {
+			isShiftDown = true;
+			document.body.classList.add("shiftDown");
+			document.body.classList.remove("shiftUp");
+		} else if(e.type === "keyup") {
+			isShiftDown = false;
+			document.body.classList.add("shiftUp");
+			document.body.classList.remove("shiftDown");
+		}
+	}
+}
+
 window.addEventListener("load", ready);
+window.addEventListener("keydown", shiftHandler);
+window.addEventListener("keyup", shiftHandler);
 
 window.addEventListener("mousemove", function(e) {
 	var percentAcross = (e.clientX / window.innerWidth * 100).toFixed();
-	if(percentAcross < 40) document.body.className = "pointerLeft";
-	else if(percentAcross > 60) document.body.className = "pointerRight";
-	else document.body.className = "pointerCenter";
+	if(percentAcross < 25) document.body.dataset.pointerpos = "left";
+	else if(percentAcross > 75) document.body.dataset.pointerpos = "right";
+	else document.body.dataset.pointerpos = "center";
 });
 
 function timeStrToObj(time) {
@@ -103,7 +124,6 @@ function getCurrentSchedule() {
 	}
 	return noSchedule;
 }
-getCurrentSchedule();
 
 function getCurrentPeriod() {
 	var d = new Date();
