@@ -90,6 +90,11 @@ body.shiftDown #timeOver, .shiftDown[data-pointerpos = "left"] #timeLeft {
 	opacity: 1;
 }
 
+.shiftDown #settingsIcon {
+	transition: none;
+	opacity: 1;
+}
+
 @media screen and (max-height: 400px) {
 	#currentTimePeriod {
 		font-size: 7.5vh;
