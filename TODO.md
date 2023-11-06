@@ -3,7 +3,6 @@
 Features to add soon:
 - Settings menu
 - Motivational quotes
-- PWA
 - Themes
 - Alarms/timers
 - Background color
