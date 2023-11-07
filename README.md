@@ -1,3 +1,3 @@
 # CHHS Clock
 
-This is a clock for Chino Hills High School. So far, it only has basic time-keeping features, but more is soon to come! (see TODO.md)
+This is an online, installable, clock for Chino Hills High School. So far, it only has time-keeping features, but a lot more is planned! (see TODO.md)
