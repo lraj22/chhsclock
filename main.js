@@ -73,7 +73,7 @@ var globalSettings = null;
 function ready() {
 	// variablize all id elements
 	document.querySelectorAll("[id]").forEach(function (e) { window[e.id] = e; });
-	
+
 	// load settings and setting handlers
 	globalSettings = localStorage.getItem("chhsclockSettings");
 	if (!globalSettings) {
@@ -100,7 +100,7 @@ function ready() {
 			e.addEventListener("input", saveSettings);
 		}
 	});
-	
+
 	// get the clock up and running
 	requestAnimationFrame(clockwork);
 }
@@ -309,4 +309,8 @@ function getFormattedTime(format) {
 	format = format.replace(/\\(.)/g, "$1");
 
 	return format;
+}
+
+if ("serviceWorker" in navigator) {
+	navigator.serviceWorker.register("./sw.js");
 }
