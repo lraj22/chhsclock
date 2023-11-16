@@ -30,8 +30,9 @@ self.addEventListener('activate', (e) => {
 
 // Network first, cache fallback strategy
 self.addEventListener('fetch', (event) => {
+	var parsedUrl = new URL(event.request.url).pathname;
 	// Check if this is one of our cached URLs
-	if (cachedItems.includes(event.request.url)) {
+	if (cachedItems.includes(parsedUrl)) {
 		// Open the cache
 		event.respondWith(caches.open(cacheName).then((cache) => {
 			// Go to the network first
