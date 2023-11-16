@@ -67,13 +67,16 @@ body.shiftDown #timeOver, .shiftDown[data-pointerpos = "left"] #timeLeft {
 	transform: translate(-50%, 50%);
 }
 
-#settingsIcon {
+#settingsIcon, #closeSettingsIcon {
 	position: fixed;
 	top: 0%;
 	right: 0%;
 	transform: translate(-50%, 50%);
-	opacity: 0;
 	cursor: pointer;
+}
+
+#settingsIcon {
+	opacity: 0;
 	transition: opacity 0.5s;
 }
 
@@ -95,6 +98,29 @@ body.shiftDown #timeOver, .shiftDown[data-pointerpos = "left"] #timeLeft {
 	opacity: 1;
 }
 
+#settingsPage {
+	width: 100vw;
+	height:  100vh;
+	position: fixed;
+	top: 0%;
+	left: 0%;
+	background-color: white;
+	display: none;
+	text-align: center;
+}
+
+.settingsView #settingsPage {
+	display: block;
+}
+
+#settingsTitle {
+	font-size: 5vh;
+}
+
+#settingsPage label {
+	font-size: 2vh;
+}
+
 @media screen and (max-height: 400px) {
 	#currentTimePeriod {
 		font-size: 7.5vh;
@@ -105,7 +131,7 @@ body.shiftDown #timeOver, .shiftDown[data-pointerpos = "left"] #timeLeft {
 }
 
 @media (prefers-color-scheme: dark) {
-	body {
+	body, #settingsPage {
 		background-color: black;
 		color: white;
 	}
