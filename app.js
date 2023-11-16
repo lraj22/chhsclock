@@ -4,7 +4,7 @@ const fs = require("fs");
 http.createServer(function (req, res) {
 	var url = req.url.split("?")[0];
 	if (url === "/") url = "/index.html";
-	var allowlistedUrls = ["/index.html", "/main.css", "/main.js", "/README.md", "/TODO.md", "/manifest.json", "/images/favicon-16.png", "/images/favicon-32.png", "/images/favicon-180.png", "/images/favicon-192.png", "/images/favicon-512.png", "/images/favicon-vector.svg"];
+	var allowlistedUrls = ["/index.html", "/main.css", "/main.js", "/sw.js", "/README.md", "/TODO.md", "/manifest.json", "/images/favicon-16.png", "/images/favicon-16-maskable.png", "/images/favicon-32.png", "/images/favicon-32-maskable.png", "/images/favicon-180.png", "/images/favicon-180-maskable.png", "/images/favicon-192.png", "/images/favicon-192-maskable.png", "/images/favicon-512.png", "/images/favicon-512-maskable.png", "/images/favicon-vector.svg", "/images/favicon-vector-maskable.svg"];
 	if (!allowlistedUrls.includes(url)) {
 		res.writeHead(404);
 		return res.end("404 Not Found");
