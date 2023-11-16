@@ -21,8 +21,17 @@ html, body {
 }
 
 #currentTimePeriod {
+	font-family: 'Courier New', Courier, monospace;
 	text-align: center;
-	font-size: 5vh;
+	font-size: 3vh;
+}
+
+[data-setting-hideTimePeriod = true] #currentTimePeriod {
+	display: none;
+}
+
+.shiftDown #currentTimePeriod {
+	display: block;
 }
 
 #timeOver {
@@ -114,11 +123,11 @@ body.shiftDown #timeOver, .shiftDown[data-pointerpos = "left"] #timeLeft {
 }
 
 #settingsTitle {
-	font-size: 5vh;
+	font-size: 8vh;
 }
 
 #settingsPage label {
-	font-size: 2vh;
+	font-size: 3vh;
 }
 
 @media screen and (max-height: 400px) {

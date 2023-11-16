@@ -6,7 +6,6 @@ console.log = function (m) {
 	consoleView.textContent = "[" + (consoleId++) + "] " + m;
 };
 
-// load CSS
 /*! loadCSS. [c]2020 Filament Group, Inc. MIT License */
 /*! Minifed */
 !function(e){"use strict";var n=function(n,t,r,i){var o,d=e.document,a=d.createElement("link");if(t)o=t;else{var f=(d.body||d.getElementsByTagName("head")[0]).childNodes;o=f[f.length-1]}var l=d.styleSheets;if(i)for(var s in i)i.hasOwnProperty(s)&&a.setAttribute(s,i[s]);a.rel="stylesheet",a.href=n,a.media="only x",!function e(n){if(d.body)return n();setTimeout(function(){e(n)})}(function(){o.parentNode.insertBefore(a,t?o:o.nextSibling)});var u=function(e){for(var n=a.href,t=l.length;t--;)if(l[t].href===n)return e();setTimeout(function(){u(e)})};function c(){a.addEventListener&&a.removeEventListener("load",c),a.media=r||"all"}return a.addEventListener&&a.addEventListener("load",c),a.onloadcssdefined=u,u(c),a};"undefined"!=typeof exports?exports.loadCSS=n:e.loadCSS=n}("undefined"!=typeof global?global:this);
@@ -54,7 +53,10 @@ function saveSettings() {
 	var constructedSettings = {};
 	document.querySelectorAll("[data-setting-name]").forEach(function(e) {
 		var settingName = e.getAttribute("data-setting-name");
-		if(e.type === "checkbox") constructedSettings[settingName] = e.checked;
+		if(e.type === "checkbox"){
+			constructedSettings[settingName] = e.checked;
+			document.body.setAttribute("data-setting-" + settingName, e.checked);
+		}
 		if(e.type === "text") constructedSettings[settingName] = e.value;
 	});
 	globalSettings = cloneObj(constructedSettings);
@@ -62,7 +64,8 @@ function saveSettings() {
 }
 
 var defaultSettings = {
-	"enableColonBlink": true
+	"enableColonBlink": true,
+	"hideTimePeriod": false,
 };
 var globalSettings = null;
 
@@ -90,6 +93,7 @@ function ready() {
 		if (typeof globalSettings[settingName] === "boolean") {
 			e.checked = globalSettings[settingName];
 			e.addEventListener("change", saveSettings);
+			document.body.setAttribute("data-setting-" + settingName, e.checked);
 		}
 		if (typeof globalSettings[settingName] === "string") {
 			e.value = globalSettings[settingName];
