@@ -1,11 +1,12 @@
 // Establish a cache name
-const cacheName = 'CHHSClockCache_Nov2023';
+const cacheName = 'CHHSClockCache_Nov2023_v2';
 const cachedItems = [
 	"/index.html",
 	"/main.js",
 	"/main.css",
 	"/images/favicon-32.png",
 	"/images/favicon-16.png",
+	"/sw.js",
 ];
 
 self.addEventListener('install', (event) => {
