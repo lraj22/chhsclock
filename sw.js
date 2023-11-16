@@ -9,13 +9,16 @@ const cachedItems = [
 ];
 
 self.addEventListener('install', (event) => {
+	console.log("Installing...");
 	event.waitUntil(caches.open(cacheName));
 });
 
 // remove cached items when new cache exists
 self.addEventListener('activate', (e) => {
+	console.log("Activating...");
 	e.waitUntil(
 		caches.keys().then((keyList) => {
+			console.log(keyList);
 			return Promise.all(
 				keyList.map((key) => {
 					if (key === cacheName) {
@@ -37,14 +40,17 @@ self.addEventListener('fetch', (event) => {
 		event.respondWith(caches.open(cacheName).then((cache) => {
 			// Go to the network first
 			return fetch(event.request.url).then((fetchedResponse) => {
+				console.log("Network first! " + parsedUrl)
 				cache.put(event.request, fetchedResponse.clone());
 				return fetchedResponse;
 			}).catch(() => {
 				// If the network is unavailable, get
+				console.log("From the cache: " + parsedUrl);
 				return cache.match(event.request.url);
 			});
 		}));
 	} else {
+		console.log("Not on the list: " + parsedUrl);
 		return;
 	}
 });
