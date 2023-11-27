@@ -6,4 +6,3 @@ Features to add soon:
 - Alarms/timers
 - Background color
 - Overrides
-- Offline functionality
