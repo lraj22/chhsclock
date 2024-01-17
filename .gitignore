@@ -1,6 +1,6 @@
 .replit
 replit.nix
 .package-lock.json
-package-lock.json
 node_modules/
 srcimgs/
+.env

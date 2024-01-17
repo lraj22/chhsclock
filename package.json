@@ -9,7 +9,9 @@
   "keywords": [],
   "author": "Lakshya Raj",
   "license": "MIT",
-  "devDependencies": {
-    "nodemon": "^3.0.1"
+  "dependencies": {
+    "@socket.io/admin-ui": "^0.5.1",
+    "dotenv": "^16.3.1",
+    "socket.io": "^4.7.4"
   }
 }
