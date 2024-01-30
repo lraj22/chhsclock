@@ -1,5 +1,5 @@
 // Establish a cache name
-const cacheName = 'CHHSClockCache_Nov2023_v2';
+const cacheName = "CHHSClockCache_Jan2024_v1";
 const cachedItems = [
 	"/index.html",
 	"/main.js",
@@ -9,17 +9,24 @@ const cachedItems = [
 	"/sw.js",
 ];
 
-self.addEventListener('install', (event) => {
-	console.log("Installing...");
+var debugLogs = false;
+
+function log() {
+	if (!debugLogs) return;
+	console.log.apply(this, arguments);
+}
+
+self.addEventListener("install", (event) => {
+	log("Installing...");
 	event.waitUntil(caches.open(cacheName));
 });
 
 // remove cached items when new cache exists
-self.addEventListener('activate', (e) => {
-	console.log("Activating...");
+self.addEventListener("activate", (e) => {
+	log("Activating...");
 	e.waitUntil(
 		caches.keys().then((keyList) => {
-			console.log(keyList);
+			log(keyList);
 			return Promise.all(
 				keyList.map((key) => {
 					if (key === cacheName) {
@@ -33,7 +40,7 @@ self.addEventListener('activate', (e) => {
 });
 
 // Network first, cache fallback strategy
-self.addEventListener('fetch', (event) => {
+self.addEventListener("fetch", (event) => {
 	var parsedUrl = new URL(event.request.url).pathname;
 	if (parsedUrl === "/") parsedUrl = "/index.html";
 	// Check if this is one of our cached URLs
@@ -42,17 +49,17 @@ self.addEventListener('fetch', (event) => {
 		event.respondWith(caches.open(cacheName).then((cache) => {
 			// Go to the network first
 			return fetch(event.request.url).then((fetchedResponse) => {
-				console.log("Network first! " + parsedUrl)
+				log("Network first! " + parsedUrl)
 				cache.put(event.request, fetchedResponse.clone());
 				return fetchedResponse;
 			}).catch(() => {
 				// If the network is unavailable, get
-				console.log("From the cache: " + parsedUrl);
+				log("From the cache: " + parsedUrl);
 				return cache.match(event.request.url);
 			});
 		}));
 	} else {
-		console.log("Not on the list: " + parsedUrl);
+		log("Not on the list: " + parsedUrl);
 		return;
 	}
 });

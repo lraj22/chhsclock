@@ -134,7 +134,7 @@ body.shiftDown #timeOver, .shiftDown[data-pointerpos = "left"] #timeLeft {
 		font-size: 7.5vh;
 	}
 	#timeLeft {
-		font-size:75%;
+		font-size: 75%;
 	}
 }
 

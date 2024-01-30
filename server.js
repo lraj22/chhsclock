@@ -2,7 +2,7 @@ const http = require("http");
 const fs = require("fs");
 require("dotenv").config();
 
-const avTag = "";
+const avTag = "v-2024jan20.1";
 
 const httpServer = http.createServer(function (req, res) {
 	// generic responder
@@ -16,6 +16,7 @@ const httpServer = http.createServer(function (req, res) {
 		});
 	}
 	var url = req.url.split("?")[0];
+	url = url.replace(/v-.*?\//, ""); // remove auto versioning tag
 	if (url.endsWith("/")) {
 		url += "index.html";
 	}
@@ -64,8 +65,7 @@ const io = new SocketIO.Server(httpServer, {
 	},
 });
 AdminUI.instrument(io, {
-	// auth: false,
-	auth:{
+	auth: {
 		type: "basic",
 		username: process.env.SA_USER,
 		password: process.env.SA_PASS.replace(/\\/g, ""),

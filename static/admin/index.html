@@ -3,13 +3,13 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>CHHS Clock</title>
+		<title>CHHS Clock Admin</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 		<meta name="description" content="A clock for Chino Hills High School!">
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-		<link rel="stylesheet" href="./$AUTO_VERSIONING_TAG$/main.css">
+		<link rel="stylesheet" href="./$AUTO_VERSIONING_TAG$/admin.css">
 		<link rel="apple-touch-icon" sizes="180x180" href="/$AUTO_VERSIONING_TAG$/images/favicon-180.png">
 		<link rel="icon" type="image/png" href="/$AUTO_VERSIONING_TAG$/images/favicon-32.png" sizes="32x32">
 		<link rel="icon" type="image/png" href="/images/favicon-16.png" sizes="16x16">
@@ -19,22 +19,17 @@
 		<script defer src="/socket.io/socket.io.min.js"></script>
 	</head>
 	<body>
-		<div id="centerDisplay">
-			<div id="timeDisplay">--:--</div>
-			<div id="currentTimePeriod"></div>
-		</div>
-		<div id="timeOver"></div>
-		<div id="timeLeft"></div>
-		<div id="dateDisplay"></div>
 		<div id="consoleView"></div>
-		<div id="settingsIcon" class="material-symbols-outlined">settings</div>
-		<div id="settingsPage">
-			<p id="settingsTitle">Settings</p>
-			<input type="checkbox" id="settingEnableColonBlink" data-setting-name="enableColonBlink"><label for="settingEnableColonBlink">Enable colon blinking (:)</label><br>
-			<input type="checkbox" id="settingHideTimePeriod" data-setting-name="hideTimePeriod"><label for="settingHideTimePeriod">Hide time period</label><br>
-			<div id="closeSettingsIcon" class="material-symbols-outlined">close</div>
+		<div id="authbox">
+			<h1>Admin Login</h1>
+			<p>Enter your credentials to access the admin dashboard.</p>
+			<label for="usnm">Username: </label>
+			<input id="usnm" type="text" spellcheck="false" title="Your username"><br><br>
+			<label for="pswd">Password: </label>
+			<input id="pswd" type="password" title="Your password"><br><br>
+			<button type="button" id="authenticate">Authenticate</button>
 		</div>
 		<script defer src="./$AUTO_VERSIONING_TAG$/helper.js"></script>
-		<script defer src="./$AUTO_VERSIONING_TAG$/main.js"></script>
+		<script defer src="./$AUTO_VERSIONING_TAG$/admin.js"></script>
 	</body>
 </html>
