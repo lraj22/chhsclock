@@ -1,4 +1,5 @@
-// dashboard.js - the dashboard manager script
+// admin.js - the admin dashboard script
+window.onerror = function (e) { log(e); };
 
 // elements
 document.querySelectorAll("[id]").forEach(function (e) { window[e.id] = e; });
@@ -70,15 +71,23 @@ function authenticateUser() {
 		},
 	});
 	socket.on("connect_error", function (error) {
-		log("Connect error");
-	});
-	reconnect.addEventListener("click", function () {
-		socket.connect();
+		log(error);
+		allowAuth = 1;
+		authenticate.textContent = "Authenticate";
 	});
 	socket.on("disconnect", function () {
 		log("You have disconnected... trying to reconnect");
 	});
+	socket.on("receiveOverrides", function (globalOverrides) {
+		overrides.value = globalOverrides;
+		overrides.placeholder = "Add overrides here";
+	});
 	socket.on("connect", function () {
+		document.body.classList.remove("not-signed-in");
+		saveOverrides.onclick = function () {
+			socket.emit("setOverrides", overrides.value);
+			log("New global overrides set!");
+		};
 		log("Connected!");
 	});
 }

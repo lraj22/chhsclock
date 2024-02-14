@@ -34,10 +34,10 @@ function clockwork() {
 }
 
 var socket = io();
+socket.on("receiveOverrides", function (overrides) {
+	log(JSON.stringify(overrides));
+});
 socket.on("connect", function () {
-	socket.on("ready", function (d) {
-		log("Received ready: " + d);
-	})
 	log("Connected to socket.io!");
 });
 

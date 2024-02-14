@@ -4,3 +4,4 @@ replit.nix
 node_modules/
 srcimgs/
 .env
+appdata.json

@@ -1,3 +1,6 @@
 {
-	"ignore": "**/static/**"
+	"ignore": [
+		"**/static/**",
+		"appdata.json"
+	]
 }

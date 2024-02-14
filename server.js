@@ -1,8 +1,9 @@
 const http = require("http");
 const fs = require("fs");
+const crypto = require("crypto");
 require("dotenv").config();
 
-const avTag = "v-2024jan20.1";
+const avTag = "v-2024feb14.1";
 
 const httpServer = http.createServer(function (req, res) {
 	// generic responder
@@ -74,4 +75,4 @@ AdminUI.instrument(io, {
 httpServer.listen(process.env.PORT || 8080);
 
 // export stuff for app.js to use
-module.exports = { io };
+module.exports = { crypto, fs, io };

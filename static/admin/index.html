@@ -5,7 +5,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>CHHS Clock Admin</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-		<meta name="description" content="A clock for Chino Hills High School!">
+		<meta name="description" content="The admin panel for CHHS Clock!">
+		<meta name="robots" content="noindex">
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,7 +19,7 @@
 		<link rel="manifest" href="./$AUTO_VERSIONING_TAG$/manifest.json">
 		<script defer src="/socket.io/socket.io.min.js"></script>
 	</head>
-	<body>
+	<body class="not-signed-in">
 		<div id="consoleView"></div>
 		<div id="authbox">
 			<h1>Admin Login</h1>
@@ -28,6 +29,13 @@
 			<label for="pswd">Password: </label>
 			<input id="pswd" type="password" title="Your password"><br><br>
 			<button type="button" id="authenticate">Authenticate</button>
+		</div>
+		<div id="dashboard">
+			<h1>Admin Dashboard</h1>
+			<h2>Overrides</h2>
+			<p>Edit the active global overrides</p>
+			<textarea name="overrides" id="overrides" rows="10" cols="50" placeholder="Loading..."></textarea><br>
+			<button id="saveOverrides">Save</button>
 		</div>
 		<script defer src="./$AUTO_VERSIONING_TAG$/helper.js"></script>
 		<script defer src="./$AUTO_VERSIONING_TAG$/admin.js"></script>
