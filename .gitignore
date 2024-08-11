@@ -3,5 +3,3 @@ replit.nix
 .package-lock.json
 node_modules/
 srcimgs/
-.env
-appdata.json

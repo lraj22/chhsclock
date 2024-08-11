@@ -33,13 +33,13 @@ function clockwork() {
 	requestAnimationFrame(clockwork);
 }
 
-var socket = io();
-socket.on("receiveOverrides", function (overrides) {
-	log(JSON.stringify(overrides));
-});
-socket.on("connect", function () {
-	log("Connected to socket.io!");
-});
+// var socket = io();
+// socket.on("receiveOverrides", function (overrides) {
+// 	log(JSON.stringify(overrides));
+// });
+// socket.on("connect", function () {
+// 	log("Connected to socket.io!");
+// });
 
 var isShiftDown = false;
 
