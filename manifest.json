@@ -2,76 +2,76 @@
 	"short_name": "CHHS Clock",
 	"name": "CHHS Clock",
 	"icons": [{
-		"src": "./images/favicon-vector.svg",
+		"src": "/chhsclock/images/favicon-vector.svg",
 		"type": "image/svg+xml",
 		"sizes": "512x512"
 	},
 	{
-		"src": "./images/favicon-512.png",
+		"src": "/chhsclock/images/favicon-512.png",
 		"type": "image/png",
 		"sizes": "512x512"
 	},
 	{
-		"src": "./images/favicon-192.png",
+		"src": "/chhsclock/images/favicon-192.png",
 		"type": "image/png",
 		"sizes": "192x192"
 	},
 	{
-		"src": "./images/favicon-180.png",
+		"src": "/chhsclock/images/favicon-180.png",
 		"type": "image/png",
 		"sizes": "180x180"
 	},
 	{
-		"src": "./images/favicon-32.png",
+		"src": "/chhsclock/images/favicon-32.png",
 		"type": "image/png",
 		"sizes": "32x32"
 	},
 	{
-		"src": "./images/favicon-16.png",
+		"src": "/chhsclock/images/favicon-16.png",
 		"type": "image/png",
 		"sizes": "16x16"
 	},
 	{
-		"src": "./images/favicon-vector-maskable.svg",
+		"src": "/chhsclock/images/favicon-vector-maskable.svg",
 		"type": "image/svg+xml",
 		"sizes": "512x512",
 		"purpose": "maskable"
 	},
 	{
-		"src": "./images/favicon-512-maskable.png",
+		"src": "/chhsclock/images/favicon-512-maskable.png",
 		"type": "image/png",
 		"sizes": "512x512",
 		"purpose": "maskable"
 	},
 	{
-		"src": "./images/favicon-192-maskable.png",
+		"src": "/chhsclock/images/favicon-192-maskable.png",
 		"type": "image/png",
 		"sizes": "192x192",
 		"purpose": "maskable"
 	},
 	{
-		"src": "./images/favicon-180-maskable.png",
+		"src": "/chhsclock/images/favicon-180-maskable.png",
 		"type": "image/png",
 		"sizes": "180x180",
 		"purpose": "maskable"
 	},
 	{
-		"src": "./images/favicon-32-maskable.png",
+		"src": "/chhsclock/images/favicon-32-maskable.png",
 		"type": "image/png",
 		"sizes": "32x32",
 		"purpose": "maskable"
 	},
 	{
-		"src": "./images/favicon-16-maskable.png",
+		"src": "/chhsclock/images/favicon-16-maskable.png",
 		"type": "image/png",
 		"sizes": "16x16",
 		"purpose": "maskable"
 	}],
-	"id": "./",
-	"start_url": "./",
+	"id": "/chhsclock/",
+	"start_url": "/chhsclock/",
 	"background_color": "#00853E",
 	"display": "fullscreen",
-	"scope": "./",
+	"scope": "/chhsclock/",
 	"theme_color": "#00853E",
 	"description": "A clock for Chino Hills High School!"
 }
