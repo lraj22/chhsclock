@@ -33,14 +33,6 @@ function clockwork() {
 	requestAnimationFrame(clockwork);
 }
 
-// var socket = io();
-// socket.on("receiveOverrides", function (overrides) {
-// 	log(JSON.stringify(overrides));
-// });
-// socket.on("connect", function () {
-// 	log("Connected to socket.io!");
-// });
-
 var isShiftDown = false;
 
 function shiftHandler(e) {
@@ -58,6 +50,7 @@ function shiftHandler(e) {
 	}
 }
 
+// purpose: show different info depending on cursor screen pos (left/middle/right)
 window.addEventListener("mousemove", function (e) {
 	var percentAcross = (e.clientX / window.innerWidth * 100).toFixed();
 	if (percentAcross < 25) document.body.dataset.pointerpos = "left";
@@ -76,7 +69,7 @@ closeSettingsIcon.addEventListener("click", function closeSettingsBtnClick() {
 // variablize all id elements
 document.querySelectorAll("[id]").forEach(function (e) { window[e.id] = e; });
 
-// load settings and setting handlers
+// load and process settings
 globalSettings = localStorage.getItem("chhsclockSettings");
 if (!globalSettings) {
 	globalSettings = JSON.stringify(cloneObj(defaultSettings));
@@ -90,6 +83,8 @@ try {
 }
 globalSettings = addObj(defaultSettings, globalSettings);
 localStorage.setItem("chhsclockSettings", JSON.stringify(globalSettings));
+
+// attach listeners for setting changes
 document.querySelectorAll("[data-setting-name]").forEach(function (e) {
 	var settingName = e.getAttribute("data-setting-name");
 	if (typeof globalSettings[settingName] === "boolean") {
@@ -108,6 +103,13 @@ requestAnimationFrame(clockwork);
 
 window.addEventListener("keydown", shiftHandler);
 window.addEventListener("keyup", shiftHandler);
+
+// fetch context and process when ready
+fetch("https://lraj22.github.io/chhsclock-data/data/context.json")
+	.then(res => res.json())
+	.then(function (context) {
+		window.chhsclockContext = context;
+	});
 
 if ("serviceWorker" in navigator) {
 	navigator.serviceWorker.register("./sw.js");

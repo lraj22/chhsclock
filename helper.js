@@ -1,3 +1,6 @@
+// helper.js
+// This file contains helper functions, important data, and library functions.
+
 /*! loadCSS. [c]2020 Filament Group, Inc. MIT License */
 /*! Minifed */
 !function(e){"use strict";var n=function(n,t,r,i){var o,d=e.document,a=d.createElement("link");if(t)o=t;else{var f=(d.body||d.getElementsByTagName("head")[0]).childNodes;o=f[f.length-1]}var l=d.styleSheets;if(i)for(var s in i)i.hasOwnProperty(s)&&a.setAttribute(s,i[s]);a.rel="stylesheet",a.href=n,a.media="only x",!function e(n){if(d.body)return n();setTimeout(function(){e(n)})}(function(){o.parentNode.insertBefore(a,t?o:o.nextSibling)});var u=function(e){for(var n=a.href,t=l.length;t--;)if(l[t].href===n)return e();setTimeout(function(){u(e)})};function c(){a.addEventListener&&a.removeEventListener("load",c),a.media=r||"all"}return a.addEventListener&&a.addEventListener("load",c),a.onloadcssdefined=u,u(c),a};"undefined"!=typeof exports?exports.loadCSS=n:e.loadCSS=n}("undefined"!=typeof global?global:this);
@@ -6,75 +9,113 @@ loadCSS("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz
 var noSchedule = {};
 
 var lateStartSchedule = {
-	"Get to 1st period": ["9:20 AM - 9:25 AM"],
-	"1st period": ["9:25 AM - 10:14 AM"],
-	"1st-2nd passing period": ["10:14 AM - 10:20 AM"],
-	"2nd period": ["10:20 AM - 11:12 AM"],
-	"2nd-3rd passing period": ["11:12 AM - 11:18 AM"],
-	"3rd period": ["11:18 AM - 12:07 PM"],
-	"3rd-4th passing period": ["12:07 PM - 12:13 PM"],
-	"4th period": ["12:13 PM - 1:02 PM"],
-	"Lunch": ["1:02 PM - 1:32 PM"],
-	"Lunch-5th passing period": ["1:32 PM - 1:38 PM"],
-	"5th period": ["1:38 PM - 2:27 PM"],
-	"5th-6th passing period": ["2:27 PM - 2:33 PM"],
-	"6th period": ["2:33 PM - 3:22 PM"],
-	"School's over!": ["3:22 PM - 3:30 PM"],
+	"Get to 1st period": ["9:20 AM -- 9:25 AM"],
+	"1st period": ["9:25 AM -- 10:14 AM"],
+	"1st-2nd passing period": ["10:14 AM -- 10:20 AM"],
+	"2nd period": ["10:20 AM -- 11:12 AM"],
+	"2nd-3rd passing period": ["11:12 AM -- 11:18 AM"],
+	"3rd period": ["11:18 AM -- 12:07 PM"],
+	"3rd-4th passing period": ["12:07 PM -- 12:13 PM"],
+	"4th period": ["12:13 PM -- 1:02 PM"],
+	"Lunch": ["1:02 PM -- 1:32 PM"],
+	"Lunch-5th passing period": ["1:32 PM -- 1:38 PM"],
+	"5th period": ["1:38 PM -- 2:27 PM"],
+	"5th-6th passing period": ["2:27 PM -- 2:33 PM"],
+	"6th period": ["2:33 PM -- 3:22 PM"],
+	"School's over!": ["3:22 PM -- 3:30 PM"],
 };
 
 var regularSchedule = {
-	"Get to 1st period": ["8:30 AM - 8:35 AM"],
-	"1st period": ["8:35 AM - 9:32 AM"],
-	"1st-2nd passing period": ["9:32 AM - 9:38 AM"],
-	"2nd period": ["9:38 AM - 10:40 AM"],
-	"2nd-3rd passing period": ["10:40 AM - 10:46 AM"],
-	"3rd period": ["10:46 AM - 11:43 AM"],
-	"3rd-4th passing period": ["11:43 AM - 11:49 AM"],
-	"4th period": ["11:49 AM - 12:46 PM"],
-	"Lunch": ["12:46 PM - 1:16 PM"],
-	"Lunch-5th passing period": ["1:16 PM - 1:22 PM"],
-	"5th period": ["1:22 PM - 2:19 PM"],
-	"5th-6th passing period": ["2:19 PM - 2:25 PM"],
-	"6th period": ["2:25 PM - 3:22 PM"],
-	"School's over!": ["3:22 PM - 3:30 PM"],
+	"Get to 1st period": ["8:30 AM -- 8:35 AM"],
+	"1st period": ["8:35 AM -- 9:32 AM"],
+	"1st-2nd passing period": ["9:32 AM -- 9:38 AM"],
+	"2nd period": ["9:38 AM -- 10:40 AM"],
+	"2nd-3rd passing period": ["10:40 AM -- 10:46 AM"],
+	"3rd period": ["10:46 AM -- 11:43 AM"],
+	"3rd-4th passing period": ["11:43 AM -- 11:49 AM"],
+	"4th period": ["11:49 AM -- 12:46 PM"],
+	"Lunch": ["12:46 PM -- 1:16 PM"],
+	"Lunch-5th passing period": ["1:16 PM -- 1:22 PM"],
+	"5th period": ["1:22 PM -- 2:19 PM"],
+	"5th-6th passing period": ["2:19 PM -- 2:25 PM"],
+	"6th period": ["2:25 PM -- 3:22 PM"],
+	"School's over!": ["3:22 PM -- 3:30 PM"],
 };
 
-function getCurrentSchedule() {
-	var dayOfTheWeek = new Date().getDay();
+function getCurrentSchedule () {
+	var now = new Date();
+	
+	// is today overridden? check context!
+	if ("chhsclockContext" in window) {
+		var fd_overrides = chhsclockContext.full_day_overrides;
+		for (let i = 0; i < fd_overrides.length; i++) {
+			let override = fd_overrides[i];
+			for (let j = 0; j < override.applies.length; j++) {
+				let currentApplyDate = override.applies[j];
+				let dayParts = currentApplyDate.split("-");
+				if ((now.getFullYear() === parseInt(dayParts[0])) && (now.getMonth() === (parseInt(dayParts[1]) - 1)) && (now.getDate() === parseInt(dayParts[2]))) {
+					overrideIndicator.style.display = "block";
+					overrideName.textContent = override.name;
+					overrideType.textContent = "full day";
+					overrideIndicator.title = "Lasts for the day of " + dashedDateToStr(currentApplyDate);
+					return override.schedule;
+				}
+			}
+		}
+	}
+	
+	// it's not overridden, follow default behavior:
+	var dayOfTheWeek = now.getDay();
 	if (dayOfTheWeek === 1) { // if today is Monday
 		return lateStartSchedule;
 	}
 	if ((dayOfTheWeek > 1) && (dayOfTheWeek < 6)) {
 		return regularSchedule;
 	}
+	
 	return noSchedule;
 }
 
-function getCurrentPeriod() {
+function getCurrentPeriod () {
 	var d = new Date();
+	var timePeriods = [];
+	
+	// is right now overridden? check context!
+	if ("chhsclockContext" in window) {
+		timePeriods = chhsclockContext.timeframe_overrides;
+	}
+	
+	
 	var currentSchedule = getCurrentSchedule();
-	var timePeriods = Object.keys(currentSchedule);
-	var i;
-	for (i = 0; i < timePeriods.length; i++) {
+	timePeriods.push(...Object.keys(currentSchedule));
+	for (let i = 0; i < timePeriods.length; i++) {
 		let timePeriod = timePeriods[i];
-		let j = 0;
-		for (j = 0; j < currentSchedule[timePeriod].length; j++) {
-			let timeBlock = currentSchedule[timePeriod][j].split("-");
+		let isBasicPeriod = (typeof timePeriod === "string");
+		let appliesBlock = (isBasicPeriod ? currentSchedule[timePeriod] : timePeriod.applies);
+		for (let j = 0; j < appliesBlock.length; j++) {
+			let timeBlock = appliesBlock[j].split("--");
 			let startTime = timeStrToObj(timeBlock[0].trim());
 			let endTime = timeStrToObj(timeBlock[1].trim());
 			if ((d > startTime) && (d < endTime)) {
 				timeOver.textContent = msToTimeDiff(d - startTime, Math.ceil) + " over";
 				timeLeft.textContent = msToTimeDiff(endTime - d, Math.floor) + " left";
-				return timePeriod;
+				if (!isBasicPeriod) {
+					overrideIndicator.style.display = "block";
+					overrideName.textContent = timePeriod.name;
+					overrideType.textContent = "timeframe";
+					overrideIndicator.title = "Lasts from " + startTime.toLocaleString() + " to " + endTime.toLocaleString();
+				}
+				return isBasicPeriod ? timePeriod : timePeriod.description;
 			}
 		}
 	}
 	timeOver.textContent = "";
 	timeLeft.textContent = "";
+	overrideIndicator.style.display = "none";
 }
 
 // save settings to localStorage
-function saveSettings() {
+function saveSettings () {
 	var constructedSettings = {};
 	document.querySelectorAll("[data-setting-name]").forEach(function (e) {
 		var settingName = e.getAttribute("data-setting-name");
@@ -89,7 +130,7 @@ function saveSettings() {
 }
 
 // cloneObj function taken from https://stackoverflow.com/a/7574273
-function cloneObj(obj) {
+function cloneObj (obj) {
 	if (obj == null || typeof (obj) != 'object') {
 		return obj;
 	}
@@ -103,7 +144,7 @@ function cloneObj(obj) {
 
 	return clone;
 }
-function addObj(original, addme) {
+function addObj (original, addme) {
 	var combined = cloneObj(original);
 	if (typeof addme !== "object") return combined;
 	for (var key in addme) {
@@ -115,12 +156,23 @@ function addObj(original, addme) {
 }
 
 // time functions
+var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "November", "December"];
+function dashedDateToStr (dashedDate) {
+	var dateParts = dashedDate.split("-");
+	return months[parseInt(dateParts[1] - 1)] + " " + parseInt(dateParts[2]) + ", " + dateParts[0];
+}
 // Convert a string to a Date object
-function timeStrToObj(time) {
-	return new Date(Date.parse(time + getFormattedTime(", MMMM d, yyyy")));
+function timeStrToObj (time) {
+	var date = getFormattedTime(", MMMM d, yyyy");
+	var timeParts = time.split("/");
+	if (timeParts.length > 1) {
+		date = ", " + dashedDateToStr(timeParts[0]);
+		time = timeParts[1];
+	}
+	return new Date(Date.parse(time + date));
 }
 // Convert number of milliseconds to human-readable string
-function msToTimeDiff(ms, f) {
+function msToTimeDiff (ms, f) {
 	var timeSeconds = (f ? f : Math.round)(ms / 1000);
 	var outComponents = [];
 	if (timeSeconds >= 3600) {
@@ -144,7 +196,7 @@ function msToTimeDiff(ms, f) {
 	}
 }
 // Time formatting function
-function getFormattedTime(format) {
+function getFormattedTime (format) {
 	if (!format) {
 		format = "h:mm";
 	}
