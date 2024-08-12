@@ -14,7 +14,7 @@ html, body {
 }
 
 #timeDisplay {
-	font-size: 30vh;
+	font-size: 15vw;
 	font-family: 'Courier New', Courier, monospace;
 	white-space: nowrap;
 	user-select: none;
@@ -85,6 +85,14 @@ body.shiftDown #timeOver, .shiftDown[data-pointerpos = "left"] #timeLeft {
 }
 
 #settingsIcon {
+	display: none;
+}
+
+.materialSymbolsLoaded #settingsIcon {
+	display: block;
+}
+
+.fadeEnabled#settingsIcon {
 	opacity: 0;
 	transition: opacity 0.5s;
 }
@@ -98,7 +106,7 @@ body.shiftDown #timeOver, .shiftDown[data-pointerpos = "left"] #timeLeft {
 	transform: translate(-50%, -50%);
 }
 
-#settingsIcon:hover {
+.fadeEnabled#settingsIcon:hover {
 	opacity: 1;
 }
 

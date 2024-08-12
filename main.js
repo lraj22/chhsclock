@@ -18,7 +18,8 @@ function log(m, override) {
 
 var defaultSettings = {
 	"enableColonBlink": true,
-	"hideTimePeriod": false,
+	"showTimePeriod": true,
+	"alwaysShowSettings": true,
 };
 var globalSettings = null;
 
@@ -97,6 +98,21 @@ document.querySelectorAll("[data-setting-name]").forEach(function (e) {
 		e.addEventListener("input", saveSettings);
 	}
 });
+
+// process all settings
+function reprocessSettings () {
+	currentTimePeriod.style.display = globalSettings.showTimePeriod ? "block": "none";
+	if (globalSettings.alwaysShowSettings === true) {
+		if (settingsIcon.classList.contains("fadeEnabled")) {
+			settingsIcon.classList.remove("fadeEnabled");
+		}
+	} else {
+		if (!settingsIcon.classList.contains("fadeEnabled")) {
+			settingsIcon.classList.add("fadeEnabled");
+		}
+	}
+}
+reprocessSettings();
 
 // get the clock up and running
 requestAnimationFrame(clockwork);

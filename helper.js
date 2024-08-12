@@ -4,7 +4,15 @@
 /*! loadCSS. [c]2020 Filament Group, Inc. MIT License */
 /*! Minifed */
 !function(e){"use strict";var n=function(n,t,r,i){var o,d=e.document,a=d.createElement("link");if(t)o=t;else{var f=(d.body||d.getElementsByTagName("head")[0]).childNodes;o=f[f.length-1]}var l=d.styleSheets;if(i)for(var s in i)i.hasOwnProperty(s)&&a.setAttribute(s,i[s]);a.rel="stylesheet",a.href=n,a.media="only x",!function e(n){if(d.body)return n();setTimeout(function(){e(n)})}(function(){o.parentNode.insertBefore(a,t?o:o.nextSibling)});var u=function(e){for(var n=a.href,t=l.length;t--;)if(l[t].href===n)return e();setTimeout(function(){u(e)})};function c(){a.addEventListener&&a.removeEventListener("load",c),a.media=r||"all"}return a.addEventListener&&a.addEventListener("load",c),a.onloadcssdefined=u,u(c),a};"undefined"!=typeof exports?exports.loadCSS=n:e.loadCSS=n}("undefined"!=typeof global?global:this);
-loadCSS("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap");
+/*! onloadCSS. (onload callback for loadCSS) [c]2017 Filament Group, Inc. MIT License */
+/*! Minifed */
+function onloadCSS(n,a){var d;function t(){!d&&a&&(d=!0,a.call(n))}n.addEventListener&&n.addEventListener("load",t),n.attachEvent&&n.attachEvent("onload",t),"isApplicationInstalled"in navigator&&"onloadcssdefined"in n&&n.onloadcssdefined(t)}
+onloadCSS(
+	loadCSS("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=block"),
+	function () {
+		document.body.classList.add("materialSymbolsLoaded");
+	}
+);
 
 var noSchedule = {};
 
@@ -42,6 +50,7 @@ var regularSchedule = {
 	"School's over!": ["3:22 PM -- 3:30 PM"],
 };
 
+var chhsclockOverride = null;
 function getCurrentSchedule () {
 	var now = new Date();
 	
@@ -58,11 +67,13 @@ function getCurrentSchedule () {
 					overrideName.textContent = override.name;
 					overrideType.textContent = "full day";
 					overrideIndicator.title = "Lasts for the day of " + dashedDateToStr(currentApplyDate);
+					chhsclockOverride = override.name;
 					return override.schedule;
 				}
 			}
 		}
 	}
+	chhsclockOverride = null;
 	
 	// it's not overridden, follow default behavior:
 	var dayOfTheWeek = now.getDay();
@@ -85,7 +96,6 @@ function getCurrentPeriod () {
 		timePeriods = chhsclockContext.timeframe_overrides;
 	}
 	
-	
 	var currentSchedule = getCurrentSchedule();
 	timePeriods.push(...Object.keys(currentSchedule));
 	for (let i = 0; i < timePeriods.length; i++) {
@@ -104,6 +114,7 @@ function getCurrentPeriod () {
 					overrideName.textContent = timePeriod.name;
 					overrideType.textContent = "timeframe";
 					overrideIndicator.title = "Lasts from " + startTime.toLocaleString() + " to " + endTime.toLocaleString();
+					chhsclockOverride = timePeriod.name;
 				}
 				return isBasicPeriod ? timePeriod : timePeriod.description;
 			}
@@ -111,7 +122,7 @@ function getCurrentPeriod () {
 	}
 	timeOver.textContent = "";
 	timeLeft.textContent = "";
-	overrideIndicator.style.display = "none";
+	if (!chhsclockOverride) overrideIndicator.style.display = "none";
 }
 
 // save settings to localStorage
@@ -127,6 +138,7 @@ function saveSettings () {
 	});
 	globalSettings = cloneObj(constructedSettings);
 	localStorage.setItem("chhsclockSettings", JSON.stringify(globalSettings));
+	reprocessSettings();
 }
 
 // cloneObj function taken from https://stackoverflow.com/a/7574273
@@ -163,7 +175,8 @@ function dashedDateToStr (dashedDate) {
 }
 // Convert a string to a Date object
 function timeStrToObj (time) {
-	var date = getFormattedTime(", MMMM d, yyyy");
+	var now = new Date();
+	var date = ", " + months[now.getMonth()] + " " + now.getDate() + ", " + now.getFullYear();
 	var timeParts = time.split("/");
 	if (timeParts.length > 1) {
 		date = ", " + dashedDateToStr(timeParts[0]);
@@ -196,59 +209,58 @@ function msToTimeDiff (ms, f) {
 	}
 }
 // Time formatting function
+function ii(i, len) {
+	var s = i + "";
+	len = len || 2;
+	while (s.length < len) s = "0" + s;
+	return s;
+}
+var MMMM = ["\x00", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+var MMM = ["\x01", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+var dddd = ["\x02", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+var ddd = ["\x03", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 function getFormattedTime (format) {
 	if (!format) {
 		format = "h:mm";
-	}
+	}	
 	var date = new Date();
-	var MMMM = ["\x00", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-	var MMM = ["\x01", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-	var dddd = ["\x02", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-	var ddd = ["\x03", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-	function ii(i, len) {
-		var s = i + "";
-		len = len || 2;
-		while (s.length < len) s = "0" + s;
-		return s;
-	}
 
 	var y = date.getFullYear();
 	format = format.replace(/(^|[^\\])yyyy+/g, "$1" + y);
-	format = format.replace(/(^|[^\\])yy/g, "$1" + y.toString().substr(2, 2));
-	format = format.replace(/(^|[^\\])y/g, "$1" + y);
+	// format = format.replace(/(^|[^\\])yy/g, "$1" + y.toString().substr(2, 2));
+	// format = format.replace(/(^|[^\\])y/g, "$1" + y);
 
 	var M = date.getMonth() + 1;
 	format = format.replace(/(^|[^\\])MMMM+/g, "$1" + MMMM[0]);
-	format = format.replace(/(^|[^\\])MMM/g, "$1" + MMM[0]);
-	format = format.replace(/(^|[^\\])MM/g, "$1" + ii(M));
-	format = format.replace(/(^|[^\\])M/g, "$1" + M);
+	// format = format.replace(/(^|[^\\])MMM/g, "$1" + MMM[0]);
+	// format = format.replace(/(^|[^\\])MM/g, "$1" + ii(M));
+	// format = format.replace(/(^|[^\\])M/g, "$1" + M);
 
 	var d = date.getDate();
 	format = format.replace(/(^|[^\\])dddd+/g, "$1" + dddd[0]);
-	format = format.replace(/(^|[^\\])ddd/g, "$1" + ddd[0]);
-	format = format.replace(/(^|[^\\])dd/g, "$1" + ii(d));
+	// format = format.replace(/(^|[^\\])ddd/g, "$1" + ddd[0]);
+	// format = format.replace(/(^|[^\\])dd/g, "$1" + ii(d));
 	format = format.replace(/(^|[^\\])d/g, "$1" + d);
 
 	var H = date.getHours();
-	format = format.replace(/(^|[^\\])HH+/g, "$1" + ii(H));
-	format = format.replace(/(^|[^\\])H/g, "$1" + H);
+	// format = format.replace(/(^|[^\\])HH+/g, "$1" + ii(H));
+	// format = format.replace(/(^|[^\\])H/g, "$1" + H);
 
 	var h = H > 12 ? H - 12 : H == 0 ? 12 : H;
-	format = format.replace(/(^|[^\\])hh+/g, "$1" + ii(h));
+	// format = format.replace(/(^|[^\\])hh+/g, "$1" + ii(h));
 	format = format.replace(/(^|[^\\])h/g, "$1" + h);
 
 	var m = date.getMinutes();
 	format = format.replace(/(^|[^\\])mm+/g, "$1" + ii(m));
-	format = format.replace(/(^|[^\\])m/g, "$1" + m);
+	// format = format.replace(/(^|[^\\])m/g, "$1" + m);
 
 	var s = date.getSeconds();
-	format = format.replace(/(^|[^\\])ss+/g, "$1" + ii(s));
-	format = format.replace(/(^|[^\\])s/g, "$1" + s);
+	// format = format.replace(/(^|[^\\])ss+/g, "$1" + ii(s));
+	// format = format.replace(/(^|[^\\])s/g, "$1" + s);
 
 	var T = H < 12 ? "AM" : "PM";
-	format = format.replace(/(^|[^\\])TT+/g, "$1" + T);
-	format = format.replace(/(^|[^\\])T/g, "$1" + T.charAt(0));
+	// format = format.replace(/(^|[^\\])TT+/g, "$1" + T);
+	// format = format.replace(/(^|[^\\])T/g, "$1" + T.charAt(0));
 
 	var t = T.toLowerCase();
 	format = format.replace(/(^|[^\\])tt+/g, "$1" + t);
