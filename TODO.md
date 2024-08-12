@@ -5,4 +5,3 @@ Features to add soon:
 - Themes
 - Alarms/timers
 - Background color
-- Overrides
