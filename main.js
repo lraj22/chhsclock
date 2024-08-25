@@ -22,15 +22,23 @@ var defaultSettings = {
 	"alwaysShowSettings": true,
 };
 var globalSettings = null;
+var lastRecordedDay = new Date();
 
 // do forever
 function clockwork() {
 	var formattedTime = getFormattedTime();
+	var now = new Date();
 	var isBlinking = (!isShiftDown && globalSettings["enableColonBlink"]);
 	if (isBlinking) formattedTime = formattedTime.split(":").join(((Date.now() % 2000) < 1000) ? ":" : " ");
 	timeDisplay.textContent = formattedTime;
 	currentTimePeriod.textContent = getCurrentPeriod();
 	dateDisplay.textContent = getFormattedTime("dddd, MMMM d");
+	if (!isSameDay(now, lastRecordedDay)) {
+		lastRecordedDay = now;
+		window.lateStartSchedule = scheduleStrObjToTimeObj(lateStartScheduleObj);
+		window.regularSchedule = scheduleStrObjToTimeObj(regularScheduleObj);
+		fetchContext();
+	}
 	requestAnimationFrame(clockwork);
 }
 
@@ -121,11 +129,21 @@ window.addEventListener("keydown", shiftHandler);
 window.addEventListener("keyup", shiftHandler);
 
 // fetch context and process when ready
-fetch("https://lraj22.github.io/chhsclock-data/data/context.json")
-	.then(res => res.json())
-	.then(function (context) {
-		window.chhsclockContext = context;
-	});
+function fetchContext () {
+	fetch("https://lraj22.github.io/chhsclock-data/data/context.json")
+		.then(res => res.json())
+		.then(function (context) {
+			var unparsedContext = context;
+			unparsedContext.full_day_overrides.forEach(function (currentSchedule, i) {
+				unparsedContext.full_day_overrides[i].schedule = scheduleStrObjToTimeObj(currentSchedule.schedule);
+			});
+			unparsedContext.timeframe_overrides.forEach(function (currentAppliesBlock, i) {
+				unparsedContext.timeframe_overrides[i].applies = scheduleStrArrToTimeArr(currentAppliesBlock.applies);
+			});
+			window.chhsclockContext = unparsedContext;
+		});
+}
+fetchContext();
 
 if ("serviceWorker" in navigator) {
 	navigator.serviceWorker.register("./sw.js");

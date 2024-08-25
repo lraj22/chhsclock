@@ -14,9 +14,10 @@ onloadCSS(
 	}
 );
 
+var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "November", "December"];
 var noSchedule = {};
 
-var lateStartSchedule = {
+var lateStartScheduleObj = {
 	"Get to 1st period": ["9:20 AM -- 9:25 AM"],
 	"1st period": ["9:25 AM -- 10:14 AM"],
 	"1st-2nd passing period": ["10:14 AM -- 10:20 AM"],
@@ -32,8 +33,9 @@ var lateStartSchedule = {
 	"6th period": ["2:33 PM -- 3:22 PM"],
 	"School's over!": ["3:22 PM -- 3:30 PM"],
 };
+window.lateStartSchedule = scheduleStrObjToTimeObj(lateStartScheduleObj);
 
-var regularSchedule = {
+var regularScheduleObj = {
 	"Get to 1st period": ["8:30 AM -- 8:35 AM"],
 	"1st period": ["8:35 AM -- 9:32 AM"],
 	"1st-2nd passing period": ["9:32 AM -- 9:38 AM"],
@@ -49,6 +51,7 @@ var regularSchedule = {
 	"6th period": ["2:25 PM -- 3:22 PM"],
 	"School's over!": ["3:22 PM -- 3:30 PM"],
 };
+window.regularSchedule = scheduleStrObjToTimeObj(regularScheduleObj);
 
 var chhsclockOverride = null;
 function getCurrentSchedule () {
@@ -61,8 +64,7 @@ function getCurrentSchedule () {
 			let override = fd_overrides[i];
 			for (let j = 0; j < override.applies.length; j++) {
 				let currentApplyDate = override.applies[j];
-				let dayParts = currentApplyDate.split("-");
-				if ((now.getFullYear() === parseInt(dayParts[0])) && (now.getMonth() === (parseInt(dayParts[1]) - 1)) && (now.getDate() === parseInt(dayParts[2]))) {
+				if (isSameDay(now, currentApplyDate)) {
 					overrideIndicator.style.display = "block";
 					overrideName.textContent = override.name;
 					overrideType.textContent = "full day";
@@ -103,9 +105,8 @@ function getCurrentPeriod () {
 		let isBasicPeriod = (typeof timePeriod === "string");
 		let appliesBlock = (isBasicPeriod ? currentSchedule[timePeriod] : timePeriod.applies);
 		for (let j = 0; j < appliesBlock.length; j++) {
-			let timeBlock = appliesBlock[j].split("--");
-			let startTime = timeStrToObj(timeBlock[0].trim());
-			let endTime = timeStrToObj(timeBlock[1].trim());
+			let startTime = appliesBlock[j][0];
+			let endTime = appliesBlock[j][1];
 			if ((d > startTime) && (d < endTime)) {
 				timeOver.textContent = msToTimeDiff(d - startTime, Math.ceil) + " over";
 				timeLeft.textContent = msToTimeDiff(endTime - d, Math.floor) + " left";
@@ -123,6 +124,23 @@ function getCurrentPeriod () {
 	timeOver.textContent = "";
 	timeLeft.textContent = "";
 	if (!chhsclockOverride) overrideIndicator.style.display = "none";
+}
+
+function scheduleStrArrToTimeArr (strArr) {
+	var objified = [];
+	for (let i = 0; i < strArr.length; i++) {
+		let parts = strArr[i].split("--");
+		objified.push([timeStrToObj(parts[0].trim()), timeStrToObj(parts[1].trim())]);
+	}
+	return objified;
+}
+function scheduleStrObjToTimeObj (origSchedule) {
+	var schedule = cloneObj(origSchedule);
+	var periods = Object.keys(schedule);
+	for (let i = 0; i < periods.length; i++) {
+		schedule[periods[i]] = scheduleStrArrToTimeArr(schedule[periods[i]]);
+	}
+	return schedule;
 }
 
 // save settings to localStorage
@@ -168,10 +186,14 @@ function addObj (original, addme) {
 }
 
 // time functions
-var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "November", "December"];
 function dashedDateToStr (dashedDate) {
 	var dateParts = dashedDate.split("-");
 	return months[parseInt(dateParts[1] - 1)] + " " + parseInt(dateParts[2]) + ", " + dateParts[0];
+}
+function isSameDay (t1, t2) {
+	if(typeof t1 === "string") t1 = new Date(dashedDateToStr(t1));
+	if(typeof t2 === "string") t2 = new Date(dashedDateToStr(t2));
+	return (t1.getFullYear() === t2.getFullYear()) && (t1.getMonth() === t2.getMonth()) && (t1.getDate() === t2.getDate());
 }
 // Convert a string to a Date object
 function timeStrToObj (time) {
