@@ -14,7 +14,7 @@ onloadCSS(
 	}
 );
 
-var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "November", "December"];
+var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 var noSchedule = {};
 
 var lateStartScheduleObj = {
@@ -95,7 +95,7 @@ function getCurrentPeriod () {
 	
 	// is right now overridden? check context!
 	if ("chhsclockContext" in window) {
-		timePeriods = chhsclockContext.timeframe_overrides;
+		timePeriods = cloneObj(chhsclockContext.timeframe_overrides);
 	}
 	
 	var currentSchedule = getCurrentSchedule();

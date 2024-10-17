@@ -133,14 +133,14 @@ function fetchContext () {
 	fetch("https://lraj22.github.io/chhsclock-data/data/context.json")
 		.then(res => res.json())
 		.then(function (context) {
-			var unparsedContext = context;
+			var unparsedContext = cloneObj(context);
 			unparsedContext.full_day_overrides.forEach(function (currentSchedule, i) {
 				unparsedContext.full_day_overrides[i].schedule = scheduleStrObjToTimeObj(currentSchedule.schedule);
 			});
 			unparsedContext.timeframe_overrides.forEach(function (currentAppliesBlock, i) {
 				unparsedContext.timeframe_overrides[i].applies = scheduleStrArrToTimeArr(currentAppliesBlock.applies);
 			});
-			window.chhsclockContext = unparsedContext;
+			window.chhsclockContext = cloneObj(unparsedContext);
 		});
 }
 fetchContext();
