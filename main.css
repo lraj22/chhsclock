@@ -14,7 +14,7 @@ html, body {
 }
 
 #timeDisplay {
-	font-size: 15vw;
+	font-size: calc(60px + 10vw);
 	font-family: 'Courier New', Courier, monospace;
 	white-space: nowrap;
 	user-select: none;
@@ -22,7 +22,7 @@ html, body {
 
 #currentTimePeriod {
 	text-align: center;
-	font-size: 3vh;
+	font-size: calc(16px + 1vw);
 }
 
 [data-setting-hideTimePeriod = true] #currentTimePeriod {
@@ -36,8 +36,7 @@ html, body {
 #timeOver {
 	position: fixed;
 	top: 50%;
-	left: 0%;
-	transform: translate(50%, -50%);
+	left: 2vw;
 	display: none;
 }
 
@@ -48,8 +47,7 @@ html, body {
 #timeLeft {
 	position: fixed;
 	top: 50%;
-	right: 0%;
-	transform: translate(-50%, -50%);
+	right: 2vw;
 }
 
 [data-pointerpos = "left"] #timeLeft {
@@ -61,11 +59,12 @@ body.shiftDown #timeOver, .shiftDown[data-pointerpos = "left"] #timeLeft {
 }
 
 #dateDisplay {
-	font-size: 5vh;
+	font-size: calc(20px + 0.5vw);
+	color: #888888;
 	position: fixed;
-	top: 100%;
 	left: 50%;
-	transform: translate(-50%, -200%);
+	bottom: 2vh;
+	transform: translate(-50%, -50%);
 }
 
 #consoleView {
@@ -131,20 +130,17 @@ body.shiftDown #timeOver, .shiftDown[data-pointerpos = "left"] #timeLeft {
 }
 
 #settingsTitle {
-	font-size: 8vh;
+	font-size: calc(40px + 2vw);
+	margin-top: 8vh;
+	margin-bottom: 5vh;
 }
 
 #settingsPage label {
-	font-size: 3vh;
+	font-size: calc(14px + 0.5vw);
 }
 
-@media screen and (max-height: 400px) {
-	#currentTimePeriod {
-		font-size: 7.5vh;
-	}
-	#timeLeft {
-		font-size: 75%;
-	}
+#overrideIndicator {
+	font-size: calc(12px + 0.25vw)
 }
 
 @media (prefers-color-scheme: dark) {
