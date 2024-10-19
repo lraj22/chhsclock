@@ -198,13 +198,21 @@ function isSameDay (t1, t2) {
 // Convert a string to a Date object
 function timeStrToObj (time) {
 	var now = new Date();
-	var date = ", " + months[now.getMonth()] + " " + now.getDate() + ", " + now.getFullYear();
-	var timeParts = time.split("/");
-	if (timeParts.length > 1) {
-		date = ", " + dashedDateToStr(timeParts[0]);
-		time = timeParts[1];
+	var date = now.getFullYear() + "-" + (now.getMonth() + 1).toString().padStart(2, "0") + "-" + now.getDate().toString().padStart(2, "0");
+	var timeStrParts = time.split("/");
+	var parsedTime = time;
+	if (timeStrParts.length > 1) {
+		date = timeStrParts[0];
+		time = timeStrParts[1];
 	}
-	return new Date(Date.parse(time + date));
+	var ampmSplit = time.split(" ");
+	var timeParts = ampmSplit[0].split(":");
+	var hours = parseInt(timeParts[0]);
+	if (ampmSplit[1].trim() === "PM") {
+		hours += 12;
+	}
+	parsedTime = hours.toString().padStart(2, "0") + ":" + timeParts.slice(1).join(":");
+	return new Date(date + "T" + parsedTime);
 }
 // Convert number of milliseconds to human-readable string
 function msToTimeDiff (ms, f) {
