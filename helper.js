@@ -117,6 +117,7 @@ function getCurrentPeriod () {
 					overrideIndicator.title = "Lasts from " + startTime.toLocaleString() + " to " + endTime.toLocaleString();
 					chhsclockOverride = timePeriod.name;
 				}
+				if (!chhsclockOverride) overrideIndicator.style.display = "none";
 				return isBasicPeriod ? timePeriod : timePeriod.description;
 			}
 		}
