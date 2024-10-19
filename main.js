@@ -20,6 +20,7 @@ var defaultSettings = {
 	"enableColonBlink": true,
 	"showTimePeriod": true,
 	"alwaysShowSettings": true,
+	"theme": "dark",
 };
 var globalSettings = null;
 var lastRecordedDay = new Date();
@@ -103,12 +104,14 @@ document.querySelectorAll("[data-setting-name]").forEach(function (e) {
 	}
 	if (typeof globalSettings[settingName] === "string") {
 		e.value = globalSettings[settingName];
+		document.body.setAttribute("data-setting-" + settingName, e.value);
 		e.addEventListener("input", saveSettings);
 	}
 });
 
 // process all settings
 function reprocessSettings () {
+	document.body.setAttribute("data-setting-theme", globalSettings.theme);
 	currentTimePeriod.style.display = globalSettings.showTimePeriod ? "block": "none";
 	if (globalSettings.alwaysShowSettings === true) {
 		if (settingsIcon.classList.contains("fadeEnabled")) {

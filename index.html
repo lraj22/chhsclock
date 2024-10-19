@@ -31,7 +31,13 @@
 			<p id="settingsTitle">Settings</p>
 			<input type="checkbox" id="settingEnableColonBlink" data-setting-name="enableColonBlink"><label for="settingEnableColonBlink">Enable blinking colon (:)</label><br>
 			<input type="checkbox" id="settingShowTimePeriod" data-setting-name="showTimePeriod"><label for="settingShowTimePeriod">Show time period</label><br>
-			<input type="checkbox" id="settingAlwaysShowSettings" data-setting-name="alwaysShowSettings"><label for="settingAlwaysShowSettings">Always show settings icon</label><br>
+			<input type="checkbox" id="settingAlwaysShowSettings" data-setting-name="alwaysShowSettings"><label for="settingAlwaysShowSettings">Always show settings icon</label><br><br>
+			<label for="settingTheme">Website theme </label>
+			<select name="settingTheme" id="settingTheme" data-setting-name="theme">
+				<option value="dark">Dark (Default)</option>
+				<option value="light">Light</option>
+				<option value="system">System</option>
+			</select><br>
 			<p id="overrideIndicator">CHHS Clock is currently on <b id="overrideName">Loading...</b> <span id="overrideType">Loading...</span> override.</p>
 			<div id="closeSettingsIcon" class="material-symbols-outlined">close</div>
 		</div>

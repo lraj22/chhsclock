@@ -1,5 +1,5 @@
 // Establish a cache name
-const cacheName = "CHHSClockCache_Feb2024_v1";
+const cacheName = "CHHSClockCache_Oct2024_v1";
 const cachedItems = [
 	"/index.html",
 	"/main.js",

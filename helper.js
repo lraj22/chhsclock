@@ -153,7 +153,7 @@ function saveSettings () {
 			constructedSettings[settingName] = e.checked;
 			document.body.setAttribute("data-setting-" + settingName, e.checked);
 		}
-		if (e.type === "text") constructedSettings[settingName] = e.value;
+		if ((e.type === "text") || (e.tagName.toUpperCase() === "SELECT")) constructedSettings[settingName] = e.value;
 	});
 	globalSettings = cloneObj(constructedSettings);
 	localStorage.setItem("chhsclockSettings", JSON.stringify(globalSettings));
@@ -192,8 +192,8 @@ function dashedDateToStr (dashedDate) {
 	return months[parseInt(dateParts[1] - 1)] + " " + parseInt(dateParts[2]) + ", " + dateParts[0];
 }
 function isSameDay (t1, t2) {
-	if(typeof t1 === "string") t1 = new Date(dashedDateToStr(t1));
-	if(typeof t2 === "string") t2 = new Date(dashedDateToStr(t2));
+	if (typeof t1 === "string") t1 = new Date(t1);
+	if (typeof t2 === "string") t2 = new Date(t2);
 	return (t1.getFullYear() === t2.getFullYear()) && (t1.getMonth() === t2.getMonth()) && (t1.getDate() === t2.getDate());
 }
 // Convert a string to a Date object

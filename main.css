@@ -6,6 +6,16 @@ html, body {
 	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
+body, #settingsPage {
+	background-color: black;
+	color: white;
+}
+
+body[data-setting-theme = "light"], [data-setting-theme = "light"] #settingsPage {
+	background-color: white;
+	color: black;
+}
+
 #centerDisplay {
 	position: fixed;
 	top: 50%;
@@ -60,7 +70,7 @@ body.shiftDown #timeOver, .shiftDown[data-pointerpos = "left"] #timeLeft {
 
 #dateDisplay {
 	font-size: calc(20px + 0.5vw);
-	color: #888888;
+	color: #777777;
 	position: fixed;
 	left: 50%;
 	bottom: 2vh;
@@ -120,7 +130,6 @@ body.shiftDown #timeOver, .shiftDown[data-pointerpos = "left"] #timeLeft {
 	position: fixed;
 	top: 0%;
 	left: 0%;
-	background-color: white;
 	display: none;
 	text-align: center;
 }
@@ -144,8 +153,15 @@ body.shiftDown #timeOver, .shiftDown[data-pointerpos = "left"] #timeLeft {
 }
 
 @media (prefers-color-scheme: dark) {
-	body, #settingsPage {
+	body[data-setting-theme = "system"], [data-setting-theme = "system"] #settingsPage {
 		background-color: black;
 		color: white;
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	body[data-setting-theme = "system"], [data-setting-theme = "system"] #settingsPage {
+		background-color: white;
+		color: black;
 	}
 }

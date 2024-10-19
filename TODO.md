@@ -1,7 +1,8 @@
 # Roadmap for the CHHS Clock
 
-Features to add soon:
+Possible new features:
 - Motivational quotes
-- Themes
 - Alarms/timers
 - Background color
+
+You can request a feature in the Issues tab.
