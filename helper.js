@@ -209,6 +209,7 @@ function timeStrToObj (time) {
 	var ampmSplit = time.split(" ");
 	var timeParts = ampmSplit[0].split(":");
 	var hours = parseInt(timeParts[0]);
+	hours %= 12;
 	if (ampmSplit[1].trim() === "PM") {
 		hours += 12;
 	}
