@@ -146,15 +146,17 @@ window.addEventListener("keyup", shiftHandler);
 function fetchContext () {
 	fetch("https://lraj22.github.io/chhsclock-data/data/context.json")
 		.then(res => res.json())
-		.then(function (context) {
-			var unparsedContext = cloneObj(context);
-			unparsedContext.full_day_overrides.forEach(function (currentSchedule, i) {
-				unparsedContext.full_day_overrides[i].schedule = scheduleStrObjToTimeObj(currentSchedule.schedule);
+		.then(function (rawContext) {
+			var parsedContext = cloneObj(rawContext);
+			parsedContext.full_day_overrides.forEach(function (currentSchedule, i) {
+				parsedContext.full_day_overrides[i].schedule = scheduleStrObjToTimeObj(currentSchedule.schedule);
 			});
-			unparsedContext.timeframe_overrides.forEach(function (currentAppliesBlock, i) {
-				unparsedContext.timeframe_overrides[i].applies = scheduleStrArrToTimeArr(currentAppliesBlock.applies);
+			parsedContext.timeframe_overrides.forEach(function (currentAppliesBlock, i) {
+				parsedContext.timeframe_overrides[i].applies = scheduleStrArrToTimeArr(currentAppliesBlock.applies);
 			});
-			window.chhsclockContext = cloneObj(unparsedContext);
+			
+			// avoid modifying this object elsewhere; cloneObj() has been removed
+			window.chhsclockContext = parsedContext;
 		});
 }
 fetchContext();

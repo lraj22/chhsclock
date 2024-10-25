@@ -196,8 +196,9 @@ function dashedDateToStr (dashedDate) {
 	return months[parseInt(dateParts[1] - 1)] + " " + parseInt(dateParts[2]) + ", " + dateParts[0];
 }
 function isSameDay (t1, t2) {
-	if (typeof t1 === "string") t1 = new Date(t1);
-	if (typeof t2 === "string") t2 = new Date(t2);
+	var tzOffsetMs = new Date().getTimezoneOffset() * 60000;
+	if (typeof t1 === "string") t1 = new Date(Date.parse(t1) + tzOffsetMs);
+	if (typeof t2 === "string") t2 = new Date(Date.parse(t2) + tzOffsetMs);
 	return (t1.getFullYear() === t2.getFullYear()) && (t1.getMonth() === t2.getMonth()) && (t1.getDate() === t2.getDate());
 }
 // Convert a string to a Date object
