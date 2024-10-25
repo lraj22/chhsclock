@@ -18,6 +18,7 @@ var months = ["January", "February", "March", "April", "May", "June", "July", "A
 var noSchedule = {};
 
 var lateStartScheduleObj = {
+	"Waiting for first bell": ["8:00 AM -- 9:20 AM"],
 	"Get to 1st period": ["9:20 AM -- 9:25 AM"],
 	"1st period": ["9:25 AM -- 10:14 AM"],
 	"1st-2nd passing period": ["10:14 AM -- 10:20 AM"],
@@ -31,11 +32,12 @@ var lateStartScheduleObj = {
 	"5th period": ["1:38 PM -- 2:27 PM"],
 	"5th-6th passing period": ["2:27 PM -- 2:33 PM"],
 	"6th period": ["2:33 PM -- 3:22 PM"],
-	"School's over!": ["3:22 PM -- 3:30 PM"],
+	"School's over!": ["3:22 PM -- 4:00 PM"],
 };
 window.lateStartSchedule = scheduleStrObjToTimeObj(lateStartScheduleObj);
 
 var regularScheduleObj = {
+	"Waiting for first bell": ["8:00 AM -- 8:30 AM"],
 	"Get to 1st period": ["8:30 AM -- 8:35 AM"],
 	"1st period": ["8:35 AM -- 9:32 AM"],
 	"1st-2nd passing period": ["9:32 AM -- 9:38 AM"],
@@ -49,7 +51,7 @@ var regularScheduleObj = {
 	"5th period": ["1:22 PM -- 2:19 PM"],
 	"5th-6th passing period": ["2:19 PM -- 2:25 PM"],
 	"6th period": ["2:25 PM -- 3:22 PM"],
-	"School's over!": ["3:22 PM -- 3:30 PM"],
+	"School's over!": ["3:22 PM -- 4:00 PM"],
 };
 window.regularSchedule = scheduleStrObjToTimeObj(regularScheduleObj);
 
@@ -108,8 +110,10 @@ function getCurrentPeriod () {
 			let startTime = appliesBlock[j][0];
 			let endTime = appliesBlock[j][1];
 			if ((d > startTime) && (d < endTime)) {
-				timeOver.textContent = msToTimeDiff(d - startTime, Math.ceil) + " over";
-				timeLeft.textContent = msToTimeDiff(endTime - d, Math.floor) + " left";
+				// if we're not first in schedule, show time since start
+				if ((i !== 0) && (typeof timePeriods[i-1] === "string")) timeOver.textContent = msToTimeDiff(d - startTime, Math.ceil) + " over";
+				// if we're not last in schedule, show time until end
+				if ((i !== (timePeriods.length - 1)) && (typeof timePeriods[i+1] === "string")) timeLeft.textContent = msToTimeDiff(endTime - d, Math.floor) + " left";
 				if (!isBasicPeriod) {
 					overrideIndicator.style.display = "block";
 					overrideName.textContent = timePeriod.name;
