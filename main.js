@@ -79,6 +79,17 @@ closeSettingsIcon.addEventListener("click", function closeSettingsBtnClick() {
 // variablize all id elements
 document.querySelectorAll("[id]").forEach(function (e) { window[e.id] = e; });
 
+// big display handling
+function bigDisplayify () {
+	document.body.classList.toggle("bigDisplayActive");
+	this.classList.toggle("bigDisplay");
+}
+
+timeOver.addEventListener("click", bigDisplayify);
+timeLeft.addEventListener("click", bigDisplayify);
+currentTimePeriod.addEventListener("click", bigDisplayify);
+timeDisplay.addEventListener("click", bigDisplayify);
+
 // load and process settings
 globalSettings = localStorage.getItem("chhsclockSettings");
 if (!globalSettings) {
