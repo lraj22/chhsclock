@@ -225,13 +225,16 @@ function timeStrToObj (time) {
 function msToTimeDiff (ms, f) {
 	var timeSeconds = (f ? f : Math.round)(ms / 1000);
 	var outComponents = [];
-	if (timeSeconds >= 3600) {
+	var forceAllNext = false;
+	if (forceAllNext || (timeSeconds >= 3600)) {
 		outComponents.push(Math.floor(timeSeconds / 3600).toString());
 		timeSeconds %= 3600;
+		forceAllNext = true;
 	}
-	if (timeSeconds >= 60) {
+	if (forceAllNext || (timeSeconds >= 60)) {
 		outComponents.push(Math.floor(timeSeconds / 60).toString());
 		timeSeconds %= 60;
+		forceAllNext = true;
 	}
 	outComponents.push(timeSeconds.toString());
 	if (outComponents.length > 2) {
