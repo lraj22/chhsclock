@@ -36,8 +36,8 @@ function clockwork() {
 	dateDisplay.textContent = getFormattedTime("dddd, MMMM d");
 	if (!isSameDay(now, lastRecordedDay)) {
 		lastRecordedDay = now;
-		window.lateStartSchedule = scheduleStrObjToTimeObj(lateStartScheduleObj);
-		window.regularSchedule = scheduleStrObjToTimeObj(regularScheduleObj);
+		schedules.lateStart = scheduleStrObjToTimeObj(schedules.lateStartScheduleObj);
+		window.regularSchedule = scheduleStrObjToTimeObj(schedules.regularScheduleObj);
 		fetchContext();
 	}
 	requestAnimationFrame(clockwork);

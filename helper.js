@@ -15,9 +15,10 @@ onloadCSS(
 );
 
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-var noSchedule = {};
+var schedules = {};
+schedules.none = {};
 
-var lateStartScheduleObj = {
+schedules.lateStartScheduleObj = {
 	"Waiting for first bell": ["8:00 AM -- 9:20 AM"],
 	"Get to 1st period": ["9:20 AM -- 9:25 AM"],
 	"1st period": ["9:25 AM -- 10:14 AM"],
@@ -34,9 +35,9 @@ var lateStartScheduleObj = {
 	"6th period": ["2:33 PM -- 3:22 PM"],
 	"School's over!": ["3:22 PM -- 4:00 PM"],
 };
-window.lateStartSchedule = scheduleStrObjToTimeObj(lateStartScheduleObj);
+schedules.lateStart = scheduleStrObjToTimeObj(schedules.lateStartScheduleObj);
 
-var regularScheduleObj = {
+schedules.regularScheduleObj = {
 	"Waiting for first bell": ["8:00 AM -- 8:30 AM"],
 	"Get to 1st period": ["8:30 AM -- 8:35 AM"],
 	"1st period": ["8:35 AM -- 9:32 AM"],
@@ -53,7 +54,7 @@ var regularScheduleObj = {
 	"6th period": ["2:25 PM -- 3:22 PM"],
 	"School's over!": ["3:22 PM -- 4:00 PM"],
 };
-window.regularSchedule = scheduleStrObjToTimeObj(regularScheduleObj);
+schedules.regular = scheduleStrObjToTimeObj(schedules.regularScheduleObj);
 
 var chhsclockOverride = null;
 function getCurrentSchedule () {
@@ -70,9 +71,14 @@ function getCurrentSchedule () {
 					overrideIndicator.style.display = "block";
 					overrideName.textContent = override.name;
 					overrideType.textContent = "full day";
-					overrideIndicator.title = "Lasts for the day of " + dashedDateToStr(currentApplyDate);
+					var applyDateParts = currentApplyDate.split("--");
+					if (applyDateParts.length === 1) {
+						overrideIndicator.title = "Lasts for the day of " + dashedDateToStr(currentApplyDate);
+					} else {
+						overrideIndicator.title = "Lasts from " + dashedDateToStr(applyDateParts[0].trim()) + " to " + dashedDateToStr(applyDateParts[1].trim());
+					}
 					chhsclockOverride = override.name;
-					return override.schedule;
+					return ((typeof override.schedule === "string") ? schedules[override.schedule] : override.schedule);
 				}
 			}
 		}
@@ -82,13 +88,13 @@ function getCurrentSchedule () {
 	// it's not overridden, follow default behavior:
 	var dayOfTheWeek = now.getDay();
 	if (dayOfTheWeek === 1) { // if today is Monday
-		return lateStartSchedule;
+		return schedules.lateStart;
 	}
 	if ((dayOfTheWeek > 1) && (dayOfTheWeek < 6)) {
-		return regularSchedule;
+		return schedules.regular;
 	}
 	
-	return noSchedule;
+	return schedules.none;
 }
 
 function getCurrentPeriod () {
@@ -141,6 +147,7 @@ function scheduleStrArrToTimeArr (strArr) {
 }
 function scheduleStrObjToTimeObj (origSchedule) {
 	var schedule = cloneObj(origSchedule);
+	schedule = ((typeof schedule === "string") ? schedules[schedule + "ScheduleObj"]: schedule);
 	var periods = Object.keys(schedule);
 	for (let i = 0; i < periods.length; i++) {
 		schedule[periods[i]] = scheduleStrArrToTimeArr(schedule[periods[i]]);
@@ -198,8 +205,19 @@ function dashedDateToStr (dashedDate) {
 function isSameDay (t1, t2) {
 	var tzOffsetMs = new Date().getTimezoneOffset() * 60000;
 	if (typeof t1 === "string") t1 = new Date(Date.parse(t1) + tzOffsetMs);
-	if (typeof t2 === "string") t2 = new Date(Date.parse(t2) + tzOffsetMs);
-	return (t1.getFullYear() === t2.getFullYear()) && (t1.getMonth() === t2.getMonth()) && (t1.getDate() === t2.getDate());
+	else t1 = new Date(t1.toDateString());
+	if (typeof t2 === "string") {
+		var t2times = t2.split("--");
+		if (t2times.length === 1) t2times[1] = t2times[0];
+		var t2start = t2times[0];
+		var t2end = t2times[1] ? t2times[1] : t2times[0];
+		t2start = new Date(Date.parse(t2start.trim()) + tzOffsetMs);
+		t2end = new Date(Date.parse(t2end.trim()) + tzOffsetMs);
+	} else {
+		var t2start = new Date(t2.toDateString());
+		var t2end = t2start;
+	}
+	return (t1 >= t2start) && (t1 <= t2end);
 }
 // Convert a string to a Date object
 function timeStrToObj (time) {
