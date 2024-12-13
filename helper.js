@@ -16,7 +16,14 @@ onloadCSS(
 
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 var schedules = {};
+
+schedules.noneScheduleObj = {};
 schedules.none = {};
+
+schedules.noSchoolScheduleObj = {
+	"No school": ["8:00 AM -- 3:22 PM"]
+};
+schedules.noSchool = scheduleStrObjToTimeObj(schedules.noSchoolScheduleObj);
 
 schedules.lateStartScheduleObj = {
 	"Waiting for first bell": ["8:00 AM -- 9:20 AM"],
@@ -55,6 +62,52 @@ schedules.regularScheduleObj = {
 	"School's over!": ["3:22 PM -- 4:00 PM"],
 };
 schedules.regular = scheduleStrObjToTimeObj(schedules.regularScheduleObj);
+
+schedules.rallyScheduleObj = {
+	"Waiting for first bell": ["8:00 AM -- 8:30 AM"],
+	"Get to 1st period": ["8:30 AM -- 8:35 AM"],
+	"1st period": ["8:35 AM -- 9:21 AM"],
+	"1st-2nd passing period": ["9:21 AM -- 9:27 AM"],
+	"2nd period": ["9:27 AM -- 10:13 AM"],
+	"2nd-3rd passing period": ["10:13 AM -- 10:19 AM"],
+	"3nd period/First rally": ["10:19 AM -- 11:24 AM"],
+	"3rd period/Second rally": ["11:25 AM -- 12:16 PM"],
+	"3rd/Rally-4th passing period": ["12:16 PM -- 12:22 PM"],
+	"4th period": ["12:22 PM -- 1:08 PM"],
+	"Lunch": ["1:08 PM -- 1:38 PM"],
+	"Lunch-5th passing period": ["1:38 PM -- 1:44 PM"],
+	"5th period": ["1:44 PM -- 2:30 PM"],
+	"5th-6th passing period": ["2:30 PM -- 2:36 PM"],
+	"6th period": ["2:36 PM -- 3:22 PM"],
+	"School's over!": ["3:22 PM -- 4:00 PM"]
+};
+schedules.rally = scheduleStrObjToTimeObj(schedules.rallyScheduleObj);
+
+schedules.finalsBlockOneScheduleObj = {
+	"Waiting for first bell": ["8:00 AM -- 8:30 AM"],
+	"Get to 1st period": ["8:30 AM -- 8:35 AM"],
+	"1st period": ["8:35 AM -- 10:04 AM"],
+	"1st-3rd passing period": ["10:04 AM -- 10:10 AM"],
+	"3nd period": ["10:10 AM -- 11:39 AM"],
+	"Lunch": ["11:39 AM -- 12:09 PM"],
+	"Lunch-5th passing period": ["12:09 PM -- 12:15 PM"],
+	"5th period": ["12:15 PM -- 1:44 PM"],
+	"School's over!": ["1:44 PM -- 2:00 PM"]
+};
+schedules.finalsBlockOne = scheduleStrObjToTimeObj(schedules.finalsBlockOneScheduleObj);
+
+schedules.finalsBlockTwoScheduleObj = {
+	"Waiting for first bell": ["8:00 AM -- 8:30 AM"],
+	"Get to 2nd period": ["8:30 AM -- 8:35 AM"],
+	"2nd period": ["8:35 AM -- 10:04 AM"],
+	"2nd-4th passing period": ["10:04 AM -- 10:10 AM"],
+	"4th period": ["10:10 AM -- 11:39 AM"],
+	"Lunch": ["11:39 AM -- 12:09 PM"],
+	"Lunch-6th passing period": ["12:09 PM -- 12:15 PM"],
+	"6th period": ["12:15 PM -- 1:44 PM"],
+	"School's over!": ["1:44 PM -- 2:00 PM"]
+};
+schedules.finalsBlockTwo = scheduleStrObjToTimeObj(schedules.finalsBlockTwoScheduleObj);
 
 var chhsclockOverride = null;
 function getCurrentSchedule () {
