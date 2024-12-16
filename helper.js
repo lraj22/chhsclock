@@ -200,7 +200,6 @@ function scheduleStrArrToTimeArr (strArr) {
 }
 function scheduleStrObjToTimeObj (origSchedule) {
 	var schedule = cloneObj(origSchedule);
-	schedule = ((typeof schedule === "string") ? schedules[schedule + "ScheduleObj"]: schedule);
 	var periods = Object.keys(schedule);
 	for (let i = 0; i < periods.length; i++) {
 		schedule[periods[i]] = scheduleStrArrToTimeArr(schedule[periods[i]]);

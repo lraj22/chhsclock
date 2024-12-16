@@ -149,7 +149,8 @@ function fetchContext () {
 		.then(function (rawContext) {
 			var parsedContext = cloneObj(rawContext);
 			parsedContext.full_day_overrides.forEach(function (currentSchedule, i) {
-				parsedContext.full_day_overrides[i].schedule = scheduleStrObjToTimeObj(currentSchedule.schedule);
+				var schedule = ((typeof currentSchedule.schedule === "string") ? schedules[currentSchedule.schedule + "ScheduleObj"] : currentSchedule.schedule);
+				parsedContext.full_day_overrides[i].schedule = scheduleStrObjToTimeObj(schedule);
 			});
 			parsedContext.timeframe_overrides.forEach(function (currentAppliesBlock, i) {
 				parsedContext.timeframe_overrides[i].applies = scheduleStrArrToTimeArr(currentAppliesBlock.applies);
