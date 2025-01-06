@@ -83,6 +83,24 @@ schedules.rallyScheduleObj = {
 };
 schedules.rally = scheduleStrObjToTimeObj(schedules.rallyScheduleObj);
 
+schedules.minimumScheduleObj = {
+	"Waiting for first bell": ["8:00 AM -- 8:30 AM"],
+	"Get to 1st period": ["8:30 AM -- 8:35 AM"],
+	"1st period": ["8:35 AM -- 9:17 AM"],
+	"1st-2nd passing period": ["9:17 AM -- 9:23 AM"],
+	"2nd period": ["9:23 AM -- 10:05 AM"],
+	"2nd-3rd passing period": ["10:05 AM -- 10:11 AM"],
+	"3rd period": ["10:11 AM -- 10:53 AM"],
+	"3rd-4th passing period": ["10:53 AM -- 10:59 AM"],
+	"4th period": ["10:59 AM -- 11:41 AM"],
+	"4th-5th passing period": ["11:41 AM -- 11:47 AM"],
+	"5th period": ["11:47 AM -- 12:29 PM"],
+	"5th-6th passing period": ["12:29 PM -- 12:35 PM"],
+	"6th period": ["12:35 PM -- 1:17 PM"],
+	"School's over!": ["1:17 PM -- 2:00 PM"],
+};
+schedules.minimum = scheduleStrObjToTimeObj(schedules.minimumScheduleObj);
+
 schedules.finalsBlockOneScheduleObj = {
 	"Waiting for first bell": ["8:00 AM -- 8:30 AM"],
 	"Get to 1st period": ["8:30 AM -- 8:35 AM"],
