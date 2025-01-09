@@ -1,13 +1,15 @@
 // Establish a cache name
-const cacheName = "CHHSClockCache_Oct2024_v1";
+const cacheName = "CHHSClockCache_Jan2025_v1";
+const base = "/chhsclock/";
 const cachedItems = [
-	"/index.html",
-	"/main.js",
-	"/main.css",
-	"/images/favicon-32.png",
-	"/images/favicon-16.png",
-	"/sw.js",
-];
+	"index.html",
+	"helper.js",
+	"main.js",
+	"main.css",
+	"images/favicon-32.png",
+	"images/favicon-16.png",
+	"sw.js",
+].map(item => base + item);
 
 var debugLogs = false;
 
@@ -17,13 +19,17 @@ function log() {
 }
 
 self.addEventListener("install", (event) => {
-	log("Installing...");
-	event.waitUntil(caches.open(cacheName));
+	log("[sw.js] Installing...");
+	event.waitUntil(caches.open(cacheName).then(function (cache) {
+		cachedItems.forEach(function (item) {
+			cache.add(item);
+		});
+	}));
 });
 
 // remove cached items when new cache exists
 self.addEventListener("activate", (e) => {
-	log("Activating...");
+	log("[sw.js] Clearing old caches (activate event)...");
 	e.waitUntil(
 		caches.keys().then((keyList) => {
 			log(keyList);
@@ -42,24 +48,24 @@ self.addEventListener("activate", (e) => {
 // Network first, cache fallback strategy
 self.addEventListener("fetch", (event) => {
 	var parsedUrl = new URL(event.request.url).pathname;
-	if (parsedUrl === "/") parsedUrl = "/index.html";
+	if (parsedUrl === base) parsedUrl = base + "index.html";
 	// Check if this is one of our cached URLs
 	if (cachedItems.includes(parsedUrl)) {
 		// Open the cache
 		event.respondWith(caches.open(cacheName).then((cache) => {
 			// Go to the network first
 			return fetch(event.request.url).then((fetchedResponse) => {
-				log("Network first! " + parsedUrl)
+				log("[sw.js] Network first! " + parsedUrl);
 				cache.put(event.request, fetchedResponse.clone());
 				return fetchedResponse;
 			}).catch(() => {
 				// If the network is unavailable, get
-				log("From the cache: " + parsedUrl);
+				log("[sw.js] From the cache: " + parsedUrl);
 				return cache.match(event.request.url);
 			});
 		}));
 	} else {
-		log("Not on the list: " + parsedUrl);
+		log("[sw.js] Not on the list: " + parsedUrl);
 		return;
 	}
 });

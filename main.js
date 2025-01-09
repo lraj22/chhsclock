@@ -162,6 +162,19 @@ function fetchContext () {
 }
 fetchContext();
 
+window.addEventListener("load", function () {
+	loaded();
+});
+
+function loaded () {
+	var threshold = 2; // waiting for 2 flags: window.onload & 1 onloadCSS
+	if (!navigator.onLine) threshold = 1; // just wait for load
+	loadFlags++;
+	if (loadFlags >= threshold) {
+		document.body.classList.remove("stillLoading");
+	}
+}
+
 if ("serviceWorker" in navigator) {
 	navigator.serviceWorker.register("./sw.js");
 }
