@@ -191,8 +191,10 @@ function getCurrentPeriod () {
 			if ((d > startTime) && (d < endTime)) {
 				// if we're not first in schedule, show time since start
 				if ((i !== 0) && (typeof timePeriods[i-1] === "string")) timeOver.textContent = msToTimeDiff(d - startTime, Math.ceil) + " over";
+				else timeOver.textContent = "";
 				// if we're not last in schedule, show time until end
 				if ((i !== (timePeriods.length - 1)) && (typeof timePeriods[i+1] === "string")) timeLeft.textContent = msToTimeDiff(endTime - d, Math.floor) + " left";
+				else timeLeft.textContent = "";
 				if (!isBasicPeriod) {
 					overrideIndicator.style.display = "block";
 					overrideName.textContent = timePeriod.name;
