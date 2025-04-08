@@ -103,6 +103,32 @@ schedules.minimumScheduleObj = {
 };
 schedules.minimum = scheduleStrObjToTimeObj(schedules.minimumScheduleObj);
 
+schedules.blockOneScheduleObj = {
+	"Waiting for first bell": ["8:00 AM -- 8:30 AM"],
+	"Get to 1st period": ["8:30 AM -- 8:35 AM"],
+	"1st period": ["8:35 AM -- 10:37 AM"],
+	"1st-3rd passing period": ["10:37 AM -- 10:43 AM"],
+	"3nd period": ["10:43 AM -- 12:45 PM"],
+	"Lunch": ["12:45 AM -- 1:15 PM"],
+	"Lunch-5th passing period": ["1:15 PM -- 1:21 PM"],
+	"5th period": ["1:21 PM -- 3:22 PM"],
+	"School's over!": ["3:22 PM -- 3:30 PM"]
+};
+schedules.blockOne = scheduleStrObjToTimeObj(schedules.blockOneScheduleObj);
+
+schedules.blockTwoScheduleObj = {
+	"Waiting for first bell": ["8:00 AM -- 8:30 AM"],
+	"Get to 2nd period": ["8:30 AM -- 8:35 AM"],
+	"2nd period": ["8:35 AM -- 10:37 AM"],
+	"2nd-4th passing period": ["10:37 AM -- 10:43 AM"],
+	"4th period": ["10:43 AM -- 12:45 PM"],
+	"Lunch": ["12:45 AM -- 1:15 PM"],
+	"Lunch-6th passing period": ["1:15 PM -- 1:21 PM"],
+	"6th period": ["1:21 PM -- 3:22 PM"],
+	"School's over!": ["3:22 PM -- 3:30 PM"]
+};
+schedules.blockTwo = scheduleStrObjToTimeObj(schedules.blockTwoScheduleObj);
+
 schedules.finalsBlockOneScheduleObj = {
 	"Waiting for first bell": ["8:00 AM -- 8:30 AM"],
 	"Get to 1st period": ["8:30 AM -- 8:35 AM"],
